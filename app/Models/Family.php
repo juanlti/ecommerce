@@ -10,8 +10,7 @@ class Family extends Model
 {
     use HasFactory;
 
-protected $guarded=[];
-
+    protected $guarded=['id','timestamps'];
 
 //relacion de Familia (1)  a Categorias (m)
 public function categories():HasMany{

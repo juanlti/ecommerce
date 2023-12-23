@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Variant extends Model
 {
     use HasFactory;
-    protected $guarded=[];
+    protected $guarded=['id','timestamps'];
 
 
     // relacion (inversa) Products (1) a Variants (m)

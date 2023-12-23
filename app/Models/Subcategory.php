@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Subcategory extends Model
 {
     use HasFactory;
-    protected $guarded=[];
+    protected $guarded=['id','timestamps'];
 
 
     //relacion (inversa) de  Categoria (1) a SubCategorias (m)
