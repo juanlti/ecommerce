@@ -1,16 +1,27 @@
 @php
-// links es on arreglo y en cada objeto de la posicion i, tiene un nombre,icon,enlace
+// links es on arreglo y en cada objeto de la posicion i, tiene un nombre,icon,enlace de cada pagina LATERAL
 $links=[
     [
+        //Escritorio
         'icon'=>'fa-solid fa-gauge',
         'name'=>'Dashboard',
         'route'=>route('admin.dashboard'),
         //verificamos si la ruta esta activa (Estamos sobra esa pagina) o no (pagina distinta)
         'active'=>request()->routeIs('admin.dashboard')
+     ],
+     [
+         // Familias de productos
+        'icon'=>'fa-solid fa-box-open',
+        'name'=>'Dashboard',
+        'route'=>route('admin.families.index'),
+        //verificamos si la ruta esta activa (Estamos sobra esa pagina) o no (pagina distinta)
+        'active'=>request()->routeIs('admin.families.*')
+
+     ]
 
 
 
-]
+
 
 ];
 

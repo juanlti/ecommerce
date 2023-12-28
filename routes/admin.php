@@ -1,4 +1,6 @@
 <?php
+
+use App\Http\Controllers\Admin\FamilyController;
 use Illuminate\Support\Facades\Route;
 
 //RUTAS DEL ADMIN
@@ -7,8 +9,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/',function(){
     return view('admin.dashboard');
 })->name('dashboard');
-
-Route::get('/otro',function(){
+/*
+Route::get('/',function(){
     return view('admin.otro');
 })->name('otro');
-
+*/
+Route::resource('families',FamilyController::class);
