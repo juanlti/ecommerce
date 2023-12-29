@@ -68,7 +68,23 @@
 
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
 @livewireScripts
+
+
+<!-- importo los dependencias  de js -->
+@stack('js')
+
+@if (session('swal'))
+    <script>
+
+            // json_encode => RECIBE CODIGO DE PHP EN JS
+        Swal.fire({!! json_encode(session('swal')) !!});
+
+    </script>
+    @endif
+
 </body>
 </html>

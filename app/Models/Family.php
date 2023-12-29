@@ -16,4 +16,9 @@ class Family extends Model
 public function categories():HasMany{
     return $this->hasMany(Category::class);
 }
+
+    public function name()
+    {
+        return $this->name;
+    }
 }
