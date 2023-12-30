@@ -13,6 +13,9 @@ class Category extends Model
 
 
     protected $guarded=['id','timestamps'];
+    public function name(){
+        return $this->name;
+    }
 
     //relacion (inversa) de Familia (1)  a Categorias (m)
     public function family():BelongsTo{

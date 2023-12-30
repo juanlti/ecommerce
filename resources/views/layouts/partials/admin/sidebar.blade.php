@@ -12,12 +12,22 @@ $links=[
      [
          // Familias de productos
         'icon'=>'fa-solid fa-box-open',
-        'name'=>'Dashboard',
+        'name'=>'Familias',
         'route'=>route('admin.families.index'),
         //verificamos si la ruta esta activa (Estamos sobra esa pagina) o no (pagina distinta)
         'active'=>request()->routeIs('admin.families.*')
 
+     ],
+       [
+         // Categorias de Familias
+        'icon'=>'fa-solid fa-tags',
+        'name'=>'Categorias',
+        'route'=>route('admin.categories.index'),
+        //verificamos si la ruta esta activa (Estamos sobra esa pagina) o no (pagina distinta)
+        'active'=>request()->routeIs('admin.categories.*')
+
      ]
+
 
 
 
