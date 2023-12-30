@@ -16,7 +16,12 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $todasCategorias=Category::orderBy('id','desc')->paginate(10);
+        $todasCategorias=Category::orderBy('id','desc')
+            ->with('family')
+            ->paginate(10);
+        //   ->with('family')  Obtenemos en cada consulta de categoria su familia correspondiente,
+        // con eso, arreglamos el problema de N+1
+        return $todasCategorias;
 
         return view('admin.categories.index',compact('todasCategorias'));
     }
@@ -42,7 +47,7 @@ class CategoryController extends Controller
 
 
         Category::create($unaCategoria->all());
-        Family::create(['name'=>$unaCategoria['name']]);
+
         session()->flash('swal',[
             'icon'=>'success',
             'title'=>'!Bien hecho!',
@@ -93,6 +98,27 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        //verifico si la categoria a eliminar tiene subcategorias asginadas
+        if($category->subcategory()->count()>0){
+            session()->flash('swal',[
+                'icon'=>'error',
+                'title'=>'Ups!',
+                    'text'=>'No se puede eliminar la categoria: '.$category['name'].' porque tiene al menos una subcategoria asociada, para borrar una categoria, debe eliminar todas las subcategoria de esa categoria',
+
+            ]);
+            return redirect()->route('admin.categories.edit',$category);
+
+
+        }else{
+
+            $category->delete();
+            session()->flash('swal',[
+                'icon'=>'success',
+                'title'=>'!Bien hecho!',
+                'text'=>' Categoria '.$category['name'].' eliminada correctamente.'
+            ]);
+            return redirect()->route('admin.categories.index');
+        }
+
     }
 }

@@ -9,7 +9,7 @@
 'route'=>route('admin.categories.index')
 ],
 [
-'name'=>'Editar'
+'name'=>$category->name,
 ]
 ]">
 
@@ -46,9 +46,17 @@
                 <x-input class="w-full" placeholder="Ingrese el nombre de la categoria" name="name" value="{{old('name',$category->name)}}"></x-input>
 
             </div>
+
+
             <div  class="flex justify-end">
                 <!-- MOVER BOTTON  A LA DERECHA ( O FINAL )-->
-                <x-button> Actualizar</x-button>
+
+
+                <x-danger-button onclick="confirmDelete()">
+                    <!-- 1 PASO: ACCION DEL BOTON -->
+                    Eliminar
+                </x-danger-button>
+                <x-button class="ml-2"> Actualizar</x-button>
             </div>
 
 
@@ -59,5 +67,38 @@
 
 
     </form>
+    <form action="{{route('admin.categories.destroy',$category)}}" method="POST" id="delete-form">
+        <!-- 3 (ULTIMO)  PASO: PETEICION DE ELIMINAR -->
+        @csrf
+        @method('DELETE')
+
+
+    </form>
+    @push('js')
+        <!-- 2 PASO: RECEPCION DE LA  ACCION -->
+        <!-- codigo de js -->
+        <script>
+            function confirmDelete(){
+
+                <!--    alert("hola")s TEST -->
+
+                Swal.fire({
+                    title: "Esta seguro ?",
+                    text: "No  podras revertir la operacion!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Si, borralo!",
+                    cancelButtonText:"Cancelar",
+                }).then((result) => {
+                    document.getElementById('delete-form').submit();
+
+                });
+            }
+
+        </script>
+    @endpush
+
 
 </x-admin-layout>
