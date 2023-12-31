@@ -21,7 +21,7 @@ class CategoryController extends Controller
             ->paginate(10);
         //   ->with('family')  Obtenemos en cada consulta de categoria su familia correspondiente,
         // con eso, arreglamos el problema de N+1
-        return $todasCategorias;
+        //return $todasCategorias;
 
         return view('admin.categories.index',compact('todasCategorias'));
     }

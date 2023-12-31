@@ -26,6 +26,15 @@ $links=[
         //verificamos si la ruta esta activa (Estamos sobra esa pagina) o no (pagina distinta)
         'active'=>request()->routeIs('admin.categories.*')
 
+     ],
+       [
+         // Subcategoria  de Categorias
+        'icon'=>'fa-solid fa-tag',
+        'name'=>'Subcategories',
+        'route'=>route('admin.subcategories.index'),
+        //verificamos si la ruta esta activa (Estamos sobra esa pagina) o no (pagina distinta)
+        'active'=>request()->routeIs('admin.subcategories.*')
+
      ]
 
 
