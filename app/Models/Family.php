@@ -10,10 +10,15 @@ class Family extends Model
 {
     use HasFactory;
 
-    protected $guarded=['id','timestamps'];
+    protected $guarded=['timestamps'];
 
 //relacion de Familia (1)  a Categorias (m)
 public function categories():HasMany{
     return $this->hasMany(Category::class);
 }
+
+    public function name()
+    {
+        return $this->name;
+    }
 }

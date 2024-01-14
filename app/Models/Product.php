@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Product extends Model
 {
     use HasFactory;
-    protected $guarded=['id','timestamps'];
+    protected $guarded=['timestamps'];
 
 
     //relacion (inversa)  Subcategory (1) a Category (m)

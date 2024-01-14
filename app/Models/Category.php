@@ -12,7 +12,10 @@ class Category extends Model
     use HasFactory;
 
 
-    protected $guarded=['id','timestamps'];
+    protected $guarded=[];
+    public function name(){
+        return $this->name;
+    }
 
     //relacion (inversa) de Familia (1)  a Categorias (m)
     public function family():BelongsTo{

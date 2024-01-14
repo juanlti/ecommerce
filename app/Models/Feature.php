@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Feature extends Model
 {
     use HasFactory;
-    protected $guarded=['id','timestamps'];
+    protected $guarded=['timestamps'];
 
 
 // relacion (inversa) Options (1) a  Features(m)

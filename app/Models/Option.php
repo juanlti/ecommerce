@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Option extends Model
 {
     use HasFactory;
-    protected $guarded=['id','timestamps'];
+    protected $guarded=['timestamps'];
 
 
 
