@@ -17,7 +17,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/home';
+    public const HOME = '/dashboard';
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.
@@ -35,6 +35,20 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
+
+            //valido el archivo admin como un archivo de ruta
+            //    Route::middleware('web','auth') con el 'auth' -> quito el error de un usuario no logueado, utilizar "auth"
+             // si el usuario no esta logueado -> automaticamente redirijo a la pagina de registrarse/loguearse
+            // si el usuario esta logueado -> continua con la pagina a mostrar
+            Route::middleware('web','auth')
+                // las rutas de admin, no necesitan el prefijo 'admin'
+                    //ejemplo: Sin prefijo => admin/categorias
+                    //ejemplo: Con prefijo=> /categorias
+                ->prefix('admin')
+                //->name('nombreDeRedireccionDeRuta.') para las redirect()
+                    ->name('admin.')
+
+                ->group(base_path('routes/admin.php'));
         });
     }
 }
