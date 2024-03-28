@@ -78,7 +78,7 @@
             <div class="mb-4 mt-10">
                 <x-label class="mb-2"> Nombre</x-label>
 
-                <x-input class="w-full" placeholder="Ingrese el nombre de la categoria"
+                <x-input class="w-full" placeholder="Ingrese el nombre de la sub categoria a crear"
                          wire:model="categorySelect.name">
 
                 </x-input>
