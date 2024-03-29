@@ -87,6 +87,8 @@ class FamilyController extends Controller
      */
     public function destroy(Family $family)
     {
+
+
         if($family->categories()->count()>0){
             session()->flash('swal',[
                 'icon'=>'error',

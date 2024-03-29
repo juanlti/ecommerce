@@ -15,6 +15,7 @@ class Subcategory extends Model
 
 
     //relacion (inversa) de  Categoria (1) a SubCategorias (m)
+    //una/s subcategoria pertecene a una categoria
     public function category():BelongsTo{
         return $this->belongsTo(Category::class);
 

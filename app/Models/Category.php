@@ -18,6 +18,7 @@ class Category extends Model
     }
 
     //relacion (inversa) de Familia (1)  a Categorias (m)
+    //una/s categoria pertenece a una familia
     public function family():BelongsTo{
         return $this->belongsTo(Family::class);
     }

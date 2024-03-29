@@ -1,5 +1,5 @@
 @props(['breadcrumbs'=>[]])
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
@@ -42,18 +42,18 @@
 <div class="p-4 sm:ml-64">
     <div class="mt-14">
 
-            <!-- flex justify-between realiza una separacion entre dos objetos -->
-            <!-- items-center centra ambos objetos -->
-            <div class="flex justify-between items-center">
-                @include('layouts.partials.admin.breadcrumb')
+        <!-- flex justify-between realiza una separacion entre dos objetos -->
+        <!-- items-center centra ambos objetos -->
+        <div class="flex justify-between items-center">
+            @include('layouts.partials.admin.breadcrumb')
 
-                <!--    isset($action) VERIFICA  SI EXISTE ENTONCES LO MUESTRA -->
-                @isset($action)
+            <!--    isset($action) VERIFICA  SI EXISTE ENTONCES LO MUESTRA -->
+            @isset($action)
                 <div>
                     {{$action}}
                 </div>
-                    @endisset
-            </div>
+            @endisset
+        </div>
 
         <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
             <!-- PANEL LATERAL-->
@@ -80,11 +80,23 @@
 @if (session('swal'))
     <script>
 
-            // json_encode => RECIBE CODIGO DE PHP EN JS
+        // json_encode => RECIBE CODIGO DE PHP EN JS
         Swal.fire({!! json_encode(session('swal')) !!});
 
     </script>
-    @endif
+@endif
+
+
+<script>
+    // session de tipo livewire, este se activa cuando escuche un evento
+    //data es un parametro
+    Livewire.on('swal', data => {
+        Swal.fire(data[0]);
+
+    });
+
+
+</script>
 
 </body>
 </html>

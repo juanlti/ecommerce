@@ -13,7 +13,7 @@
 
                 </x-label>
 
-                <x-select name="family_id" class="w-full" wire:model.live="categorySelect.family_id">
+                <x-select name="family_id" class="w-full" wire:model.live="subCategorySelectEdit.family_id">
                     {{--Lista desplegable}}
                     {{--  <x-select class="w-full" wire:model.live="categorySelect.family_id"> LO VUELVO
               DEPENDIENTE DE "categorySelect.family_id" atributo del componente--}}
@@ -44,10 +44,10 @@
 
                 {{--enlazo el renderizado --}}
 
-                <x-select name="category_id" class="w-full" wire:model.live="categorySelect.category_id">
+                <x-select name="category_id" class="w-full" wire:model.live="subCategorySelectEdit.category_id">
 
 
-                    <option value="" disabled>
+                    <option value='' disabled>
                         Selecione una categoria
                     </option>
                     @foreach($this->categories as $categorie)
@@ -79,14 +79,20 @@
                 <x-label class="mb-2"> Nombre</x-label>
 
                 <x-input class="w-full" placeholder="Ingrese el nombre de la sub categoria a crear"
-                         wire:model="categorySelect.name">
+                         wire:model="subCategorySelectEdit.name">
 
                 </x-input>
 
             </div>
             <div class="flex justify-end">
                 <!-- MOVER BOTTON  A LA DERECHA ( O FINAL )-->
-                <x-button> Guardar</x-button>
+                <x-danger-button onclick="confirmDelete()">
+                    <!-- 1 PASO: ACCION DEL BOTON -->
+                    Eliminar
+                </x-danger-button>
+
+
+                <x-button class="ml-2"> Actualizar </x-button>
             </div>
 
 
@@ -95,6 +101,40 @@
     {{-- @dump($categorySelect)  --}}
     {{-- $this->Accedo Variable computada--}}
     {{-- @dump($this->categories) --}}
-    @dump($this->categories)
 
 </div>
+<form action="{{route('admin.subcategories.destroy',$categorie)}}" method="POST" id="delete-form">
+    <!-- 3 (ULTIMO)  PASO: PETEICION DE ELIMINAR -->
+    @csrf
+    @method('DELETE')
+
+
+</form>
+
+
+@push('js')
+    <!-- 2 PASO: RECEPCION DE LA  ACCION -->
+    <!-- codigo de js -->
+    <script>
+        function confirmDelete(){
+
+            <!--    alert("hola")s TEST -->
+
+            Swal.fire({
+                title: "Esta seguro ?",
+                text: "No  podras revertir la operacion!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Si, borralo!",
+                cancelButtonText:"Cancelar",
+            }).then((result) => {
+                document.getElementById('delete-form').submit();
+
+            });
+        }
+
+    </script>
+@endpush
+
