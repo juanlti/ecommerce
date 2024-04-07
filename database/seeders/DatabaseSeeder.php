@@ -4,7 +4,9 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,23 +16,24 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-      //  Storage::deleteDirectory('products')
-            //elimina la ventana
-        // Storage::makeDirectory('products')
-
+        Storage::deleteDirectory('public/products');
+        //elimina la carpeta products
+        Storage::makeDirectory('public/products');
+        // crear la carpeta products
         // \App\Models\User::factory(10)->create();
+        \App\Models\User::factory()->create([
+          'name' => 'Juan',
+           'email' => 'j@hotmail.com',
+            'password' => bcrypt('12345678'),
+         ]);
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
         $this->call([
             FamilySeeder::class,
 
 
         ]);
+        //creo 150 objetos de Product utilizando un metodo factory (el mismo esta personalizado)
+        Product::factory(150)->create();
 
-        //llamo al factory de products
-        Product::factory(100)->create();
     }
 }
