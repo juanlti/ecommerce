@@ -35,7 +35,17 @@ $links=[
         //verificamos si la ruta esta activa (Estamos sobra esa pagina) o no (pagina distinta)
         'active'=>request()->routeIs('admin.subcategories.*')
 
+     ],
+       [
+         // Productos de subcategorias
+        'icon'=>'fa-solid fa-box',
+        'name'=>'Productos',
+        'route'=>route('admin.products.index'),
+        //verificamos si la ruta esta activa (Estamos sobra esa pagina) o no (pagina distinta)
+        'active'=>request()->routeIs('admin.products.*')
+
      ]
+
 
 
 

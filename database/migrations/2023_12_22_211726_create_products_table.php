@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('sku');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->string('image_path');
             $table->float('price');
             // subCategory (1) --> Producto (m)
