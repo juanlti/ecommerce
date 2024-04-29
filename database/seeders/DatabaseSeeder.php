@@ -16,10 +16,11 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-        Storage::deleteDirectory('public/products');
+        Storage::deleteDirectory('products');
         //elimina la carpeta products
-        Storage::makeDirectory('public/products');
+
         // crear la carpeta products
+        Storage::makeDirectory('products');
         // \App\Models\User::factory(10)->create();
         \App\Models\User::factory()->create([
           'name' => 'Juan',
@@ -33,7 +34,8 @@ class DatabaseSeeder extends Seeder
 
         ]);
         //creo 150 objetos de Product utilizando un metodo factory (el mismo esta personalizado)
-        Product::factory(150)->create();
+
+        Product::factory(100)->create();
 
     }
 }

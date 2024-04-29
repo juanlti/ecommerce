@@ -43,6 +43,7 @@ class ProductCreate extends Component
             'product.sku' => 'required|unique:products,sku',
             'product.description' => 'nullable',
 
+
             'product.price' => 'required|numeric|min:0',
             'family_id' => 'required|exists:families,id',
             'category_id' => 'required|exists:categories,id',
@@ -51,7 +52,7 @@ class ProductCreate extends Component
 
         ], ['product.name.required' => 'Debe ingresar un nombre']);
         // verificacion es correcta, le asigno el valor de la propiedad $this->category_id al arreglo que contiene todos los atributos para crear un objeto Product
-        $this->product['subcategory_id'] = $this->category_id;
+        $this->product['subcategory_id'] = $this->subcategory_id;
         //Cargo la imagen en la carpeta producto y nos devuelve el path de su nueva ubicacion
         $pathImage = $this->image->store('products');
         $this->product['image_path'] = $pathImage;
@@ -66,7 +67,7 @@ class ProductCreate extends Component
 
         ]);
 
-        // return redirect()->route('admin.products.edit',$newProduct);
+         return redirect()->route('admin.products.edit',$newProduct);
 
 
         //dd($this->product);
@@ -112,15 +113,7 @@ class ProductCreate extends Component
         'subcategory_id' => '',
 
     ];
-    public $valueSelect = [
-        'name' => '',
-        'sku' => '',
-        'description' => '',
-        'image_path' => '',
-        'price' => '',
-        'subcategory_id' => '',
 
-    ];
 
     public function updatedFamilyId()
     {

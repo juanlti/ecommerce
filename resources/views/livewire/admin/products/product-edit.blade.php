@@ -1,7 +1,7 @@
 <div>
     <form wire:submit="store">
+
         @csrf
-        {{-- store es un metodo, y este se ejecuta con el boton de nuevo --}}
         <figure class="mb-4 relative">
             {{-- absolute superpone un objeto sobre el objeto padre (figure) --}}
             <div class="absolute top-8 right-8">
@@ -15,17 +15,32 @@
                     <input type="file" class="hidden" wire:model="image" accept="image/*">
                 </label>
             </div>
+        {{-- store es un metodo, y este se ejecuta con el boton de nuevo --}} <img
+            class="aspect-[16/9] object-cover object-center w-full"
 
-            <img class="aspect-[16/9] object-cover object-center w-full"
-                 src="{{ $image ? $image->temporaryUrl() :asset('img/no-image.png')}}"
-                 alt="">
-            </img>
-            {{--  $image ? si es distintono de nulo ejecuta :
-              $image->temporaryUrl() obtengo la url provista por el sistema (es una url de almacenamiento)
-              si es nulo ejecuta :  :asset('img/no-image.png') imagen por defecto
-                --}}
-            {{-- object-cover permite que el objeto interno e la img cubra todo su espacio y con objecter-center centro ese mismo objeto--}}
+
+            src="{{ $image ? $image->temporaryUrl():Storage::url($productEdit['image_path'])}}"
+            {{-- APP_URL=http://localhost-- }}
+         {{-- Storage recupera la imagen a traves del path_imagen de $imagen --}}
+            {{--   src="{{ $image ? $image->temporaryUrl()  :asset('img/no-image.png')}}" --}}
+            alt="">
+
+        {{--  $image ? si es distintono de nulo ejecuta :
+          $image->temporaryUrl() obtengo la url provista por el sistema (es una url de almacenamiento)
+          si es nulo ejecuta :  :asset('img/no-image.png') imagen por defecto
+            --}}
+        {{-- object-cover permite que el objeto interno e la img cubra todo su espacio y con objecter-center centro ese mismo objeto--}}
         </figure>
+        {{--
+        @dump($productEdit['image_path'])
+        @dump(Storage::url($productEdit['image_path']))
+        @dump('http://localhost/storage/app/public/'.$productEdit['image_path'])
+        {{Storage::url($productEdit['image_path'])}}
+
+        @dump('storage/products/Jj2Yw9ItyY5WrQNrMmEnCDiqCUba9D7ho2iUI0je.jpg')
+        {{ Storage::url('http://localhost/storage/'.$productEdit['image_path']) }}
+         --}}
+
         {{-- Componente encargado de mostrar los mensajes de validaciones--}}
         <x-validation-errors class="mb-4"/>
 
@@ -39,7 +54,7 @@
                 </x-label>
 
 
-                <x-input wire:model="product.sku" class="w-full"
+                <x-input wire:model="productEdit.sku" class="w-full"
                          placeholder="Por favor ingrese el codigo (sku) del producto"/>
 
 
@@ -52,10 +67,8 @@
                 </x-label>
 
 
-                <x-input wire:model="product.name" class="w-full"
+                <x-input wire:model="productEdit.name" class="w-full"
                          placeholder="Por favor ingrese el nombre del producto"/>
-
-
 
 
             </div>
@@ -69,7 +82,7 @@
                 </x-label>
 
 
-                <x-textarea wire:model="product.description" class="w-full"
+                <x-textarea wire:model="productEdit.description" class="w-full"
                             placeholder="Por favor ingrese una descripcion">
 
                 </x-textarea>
@@ -130,11 +143,12 @@
                     Subcategoria
 
                 </x-label>
-                <x-select wire:model.live="subcategory_id" class="w-full">
+                <x-select wire:model.live="productEdit.subcategory_id" class="w-full">
 
                     <option value="" disabled>
                         Selecione una subcategoria
                     </option>
+
 
                     @foreach($this->subcategories as $subcategory)
 
@@ -163,7 +177,7 @@
                 <x-input
                     type="number"
                     step="0.01"
-                    wire:model="product.price"
+                    wire:model="productEdit.price"
                     class="w-full"
                     placeholder="Porfavor ingrese un precio">
                 </x-input>
@@ -171,15 +185,61 @@
             </div>
 
             <div class="mt-4 flex justify-end">
-                <x-button>
-                    Crear producto
+
+
+                    <x-danger-button onclick="confirmDelete()">
+                        <!-- 1 PASO: ACCION DEL BOTON -->
+                        Eliminar
+                    </x-danger-button>
+                <x-button class="ml-2">
+                    Actualizar
 
                 </x-button>
 
+
+
+
+
+                {{--
+                @dump($this->subcategory_id)
+                @dump($this->productEdit)
+                    --}}
             </div>
 
 
     </form>
+    <form action="{{route('admin.products.destroy',$product)}}" method="POST" id="delete-form">
+        <!-- 3 (ULTIMO)  PASO: PETEICION DE ELIMINAR -->
+        @csrf
+        @method('DELETE')
+
+
+    </form>
+    @push('js')
+        <!-- 2 PASO: RECEPCION DE LA  ACCION -->
+        <!-- codigo de js -->
+        <script>
+            function confirmDelete(){
+
+                <!--    alert("hola")s TEST -->
+
+                Swal.fire({
+                    title: "Esta seguro ?",
+                    text: "No  podras revertir la operacion!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Si, borralo!",
+                    cancelButtonText:"Cancelar",
+                }).then((result) => {
+                    document.getElementById('delete-form').submit();
+
+                });
+            }
+
+        </script>
+    @endpush
 
 </div>
 
