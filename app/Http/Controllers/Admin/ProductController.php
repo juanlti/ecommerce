@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
+use \Illuminate\Support\Facades\Storage;
+
 class ProductController extends Controller
 {
     /**
@@ -54,7 +56,9 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        // retorna a la vista
+        return view('admin.products.edit',compact('product'));
+
     }
 
     /**
@@ -70,6 +74,20 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+
+        //dd('estoy en destroy'.$product);
+
+        // 1 elimino la imagen
+        \Illuminate\Support\Facades\Storage::delete($product['image_path']);
+        //elimino el producto de la bd
+        $product->delete();
+        session()->flash('swal',[
+        'icon'=>'success',
+        'title'=>'Bien hecho',
+        'text'=>'El producto se elimino correctamente']);
+        return redirect()->route('admin.products.index');
+
+
+
     }
 }

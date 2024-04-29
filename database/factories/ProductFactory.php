@@ -26,11 +26,12 @@ class ProductFactory extends Factory
         //1.jpg
 
         //$this->faker->sentence(), genera una sola cadena, por otro lado >$this->faker->words(3), este genera un arreglo por cada palabra
+
         return [
             'name'=>$this->faker->sentence(),
-            'sku'=>$this->faker->unique()->numberBetween(100000,999999),
+            'sku'=>$this->faker->unique()->numberBetween(1,999999),
             'description'=>$this->faker->text(200),
-            'image_path'=>'products/' . $this->faker->image('public/storage/products',640,480,null,false),// si es true resultado: public/storage/images/1.jpg',
+            'image_path'=>'products/'.$this->faker->image('public/storage/products',640,480,null,false),// si es true resultado: public/storage/images/1.jpg',
             'price'=>$this->faker->randomFloat(2,1,1000),//(cantDecimales,minimo,maximo)
             'subcategory_id'=>$this->faker->numberBetween(1,632),
         ];
