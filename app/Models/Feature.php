@@ -10,11 +10,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Feature extends Model
 {
     use HasFactory;
-    protected $guarded=['timestamps'];
+    protected $fillable=['name','type','options_id'];
+    public $timestamps=false;
+    protected $primaryKey='sno';
+
 
 
 // relacion (inversa) Options (1) a  Features(m)
-public function feature():BelongsTo{
+public function options():BelongsTo{
     return $this->belongsTo(Option::class);
 
 }

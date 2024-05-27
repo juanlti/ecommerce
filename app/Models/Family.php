@@ -12,6 +12,7 @@ class Family extends Model
 
     protected $guarded=['timestamps'];
 
+
 //relacion de Familia (1)  a Categorias (m)
 public function categories():HasMany{
     return $this->hasMany(Category::class);
