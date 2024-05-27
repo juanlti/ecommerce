@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\FamilyController;
 use App\Http\Controllers\admin\SubcategoryController;
+use App\Http\Controllers\admin\OptionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ProductController;
 //RUTAS DEL ADMIN
@@ -16,6 +17,9 @@ Route::get('/',function(){
     return view('admin.otro');
 })->name('otro');
 */
+
+Route::get('options',[OptionController::class,'index'])->name('options.index');
+
 Route::resource('families',FamilyController::class);
 Route::resource('categories',CategoryController::class);
 Route::resource('subcategories',SubcategoryController::class);

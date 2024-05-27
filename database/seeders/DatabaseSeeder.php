@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Option;
 
 class DatabaseSeeder extends Seeder
 {
@@ -30,12 +31,14 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             FamilySeeder::class,
+            OptionSeeder::class,
 
 
         ]);
         //creo 150 objetos de Product utilizando un metodo factory (el mismo esta personalizado)
 
         Product::factory(100)->create();
+
 
     }
 }
