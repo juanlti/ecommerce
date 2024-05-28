@@ -8,6 +8,7 @@ use App\Models\Category;
 class ManegeOptions extends Component
 {
     //defino una variable $options, almacena todas las opciones que esta en la bd
+    // $options es una variable
     public $options;
 
     public function mount(){
