@@ -24,7 +24,7 @@ class Option extends Model
 
     }
     //Relacion de Opcion (1) a Feature (m)
-    //ejemplo: si existen una campera, en la tabla Opcion, se guarda "talla" y en la tabla Feature se almcena el talle
+    //ejemplo: si existe una campera, en la tabla Opcion, se guarda "talla" y en la tabla Feature se almacena los diferentes talles
     //opcion-> talle y feature -> numero de talle
     public function features(): HasMany
     {

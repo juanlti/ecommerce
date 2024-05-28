@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Option;
+
 class OptionSeeder extends Seeder
 {
     /**
@@ -20,24 +21,24 @@ class OptionSeeder extends Seeder
                 'type' => 1,
                 'features' => [
                     [
-                    'value' => 's',
-                    'description' => 'small'
-                ],
-                [
-                    'value' => 'm',
-                    'description' => 'medium'
-                ],
-                 [
-                    'value' => 'l',
-                    'description' => 'large'
-                ],
-                [
-                    'value' => 'xl',
-                    'description' => 'extra large'
-                ],
+                        'value' => 's',
+                        'description' => 'small'
+                    ],
+                    [
+                        'value' => 'm',
+                        'description' => 'medium'
+                    ],
+                    [
+                        'value' => 'l',
+                        'description' => 'large'
+                    ],
+                    [
+                        'value' => 'xl',
+                        'description' => 'extra large'
+                    ],
 
-            ],
                 ],
+            ],
 
             [
                 'name' => 'Color',
@@ -88,10 +89,11 @@ class OptionSeeder extends Seeder
 
 
         ];
-       // dd($options);
+        // INGRESO DE DATOS
+        // dd($options);
         foreach ($options as $option) {
             //recorro cada objeto Option, ejemplo: Talla, Color , Sexo
-            //crep la option
+            //creo la option
             $optionModel = Option::create([
                 'name' => $option['name'],
                 'type' => $option['type'],
@@ -100,21 +102,16 @@ class OptionSeeder extends Seeder
 
             foreach ($option['features'] as $feature) {
                 //utilizo el objeto creado $optionModel, que pertenece a la clase Option
-                // y  utilizo la relacion model -> features, para relacionarlo y  para crearlo su caracteristica (feature)
+                // y  utilizo la relacion model -> features, para crearlo y relacionarlo (feature)
                 // eloquent
                 //dump($optionModel->id);
                 $optionModel->features()->create([
                     //'options_id'=>$optionModel->id,
-
-
-
-
                     'value' => $feature['value'],
                     'description' => $feature['description'],
                     //'options_id'=>$optionModel['id'],
                 ]);
             }
-
 
 
         }
