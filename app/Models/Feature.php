@@ -10,9 +10,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Feature extends Model
 {
     use HasFactory;
-    protected $fillable=['name','type','options_id'];
+    protected $fillable=['value','description','option_id'];
     public $timestamps=false;
-    protected $primaryKey='sno';
+    protected $primaryKey='no';
 
 
 
