@@ -89,20 +89,20 @@
 
         {{--Defino el segundo slot, hace referencia al slot con el nombre 'content' --}}
         <x-slot name="content">
-            <x-validation-errors class="mb-4"/>
+           <x-validation-errors class="mb-4"/>
             <div class="grid grid-cols-2 gap-6 mb-4">
                 {{-- Creo una grilla con dos columnas y con una separacion de 6 --}}
                 <div>
                     <x-label class="mb-1">Nombre</x-label>
                     {{-- newOption.name es una referencia al atributo public $newOption['name'], se envia data al backend--}}
-                    <x-input class="w-full" wire:model="newOption.name" placeholder="Por ejemplo: Tamanio, Color.."/>
+                    <x-input class="w-full" wire:model="newOptionForm.name" placeholder="Por ejemplo: Tamanio, Color.."/>
 
 
                 </div>
                 <div>
                     <x-label class="mb-1"> Tipo</x-label>
                     {{-- utiizo el componente x-select propio. lista desplegable --}}
-                    <x-select class="w-full" wire:model.live="newOption.type">
+                    <x-select class="w-full" wire:model.live="newOptionForm.type">
                         <option value="1">Texto</option>
                         <option value="2">Color</option>
                     </x-select>
@@ -124,7 +124,8 @@
             {{-- space (espaciador en altura y distancia 4 --}}
             <div class="mb-4 space-y-4">
 
-                @foreach($newOption['features'] as $index => $aFeature)
+                @foreach($newOptionForm->features as $index => $aFeature)
+                    {{--@dump($index)--}}
 
                     {{-- utilizo el index, porque un index[0]= inputValue + inputDescription --}}
                     {{-- se iterado por la cantidad de Features que tiene un producto. ejemplo: bolsos, tiene color celeste de tipo texto
@@ -158,11 +159,12 @@
                                 {{-- inputs n2, corresponde a la columna n2  --}}
 
 
-                                @switch($newOption['type'])
+                                @switch($newOptionForm->type)
+
 
                                     @case(1)
                                         {{-- si case es 1, se muestra el input de texto- --}}
-                                        <x-input class="w-full" wire:model="newOption.features.{{$index}}.value"
+                                        <x-input class="w-full" wire:model="newOptionForm.features.{{$index}}.value"
                                                  placeholder="Tamanio: ejemplo 3LLL"/>
                                         @break
                                     @case(2)
@@ -171,11 +173,11 @@
                                         <div
                                             class="border border-gray-300 h-[42px] rounded-md flex items-center p-3 flex justify-between">
                                             {{-- si case es 2, se muestra el input de color- --}}
-                                            {{$newOption['features'][$index]['value'] ?: 'Selecione un color'}}
+                                            {{$newOptionForm->features[$index]['description'] ?: 'Selecione un color'}}
                                             {{-- ?: --}}
                                             {{-- objeto ?(verifica que la variable este definida) :(verifica que tenga valor no nulo) 'una sentencia '  --}}
                                             <x-input type="color"
-                                                     wire:model.live="newOption.features.{{$index}}.value"
+                                                     wire:model.live="newOptionForm.features.{{$index}}.value"
                                                      placeholder="Color: lila3000"/>
 
                                         </div>
@@ -192,7 +194,7 @@
                                     Descripcion
                                 </x-label>
 
-                                <x-input class="w-full" wire:model="newOption.features.{{$index}}.description"
+                                <x-input class="w-full" wire:model="newOptionForm.features.{{$index}}.description"
                                          placeholder="Tamanio: ejemplo 3LLL"/>
 
                             </div>
