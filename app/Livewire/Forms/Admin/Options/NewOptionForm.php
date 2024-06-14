@@ -4,7 +4,6 @@ namespace App\Livewire\Forms\Admin\Options;
 
 use App\Models\Feature;
 use App\Models\Option;
-use Livewire\Attributes\Validate;
 use Livewire\Form;
 
 class NewOptionForm extends Form
@@ -76,6 +75,7 @@ class NewOptionForm extends Form
 
     public function addFeature()
     {
+
         $this->features[] = [
             'value' => '',
             'description' => '',
