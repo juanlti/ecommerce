@@ -2,11 +2,12 @@
 
 namespace App\Livewire\Admin\Options;
 
+use Livewire\Attributes\On;
 use Livewire\Component;
 use App\Models\Option;
 use App\Models\Feature;
 use App\Livewire\Forms\Admin\Options\NewOptionForm;
-
+use Illuminate\Database\Eloquent\Collection;
 
 class ManegeOptions extends Component
 {
@@ -20,13 +21,31 @@ class ManegeOptions extends Component
     public NewOptionForm $newOptionForm;
 
 
+    public function deleteFeature(Feature $feature){
+        //dd($feature->toArray());
+        $feature->delete();
+    }
+    public function deleteOption(Option $option){
+        //dd($option->toArray());
+        $option->delete();
+        $this->options = Option::with('features')->get();
+    }
 
+    //este este metodo 'addFeature' escucha emi
+    #[On('updateOptionList')]
+    public function updateOptionList(){
+        //actualiza la lista de los features segun el componente hijo (addNewFeature)
+        $this->options = Option::with('features')->get();
+    }
 
 
     public function addFeature()
     {
+       // dd('estoy en addFeature');
+        //$this->options = Option::with('features')->get();
         $this->newOptionForm->addFeature();
     }
+
 
     public function addOpt()
     {

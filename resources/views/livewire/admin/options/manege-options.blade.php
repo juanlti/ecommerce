@@ -23,8 +23,14 @@
                 ejemplo: border, es necesario los border-gray--}}
                 @foreach($options as $option)
 
-                    <div class="p-6 rounded-lg border border-gray-600 relative">
+                    <div class="p-6 rounded-lg border border-gray-600 relative" wire:key="option-{{$option->id}}">
+
+
                         <div class="absolute -top-3 bg-white px-4">
+                            <button onclick="confirmDelete({{$option->id}},'option')"><i
+                                    class="pr-2 fa-solid fa-trash-can text-red-500 hover:text-red-600"></i>
+                            </button>
+
                             <spam>
                                 {{$option->name}}
                             </spam>
@@ -33,9 +39,12 @@
                         {{--valores, inversa --}}
                         {{-- Muestro por cada  $option las relaciones --}}
                         {{--  1 option  --> m features --}}
-                        <div class="flex flex-wrap">
+                        <div class="flex flex-wrap mb-4">
+
                             {{--   <div class="flex flex-wrap"> Me aseguro que las diferentes opciones (talle, color, sexo), se vayan agregando al lado
                              pero al completar el limite por linea, los siguientes aparezcan a bajo--}}
+                            {{--features de cada option--}}
+
                             @foreach($option->features as $feature)
 
                                 @switch($option->type)
@@ -43,29 +52,55 @@
                                         {{-- Talla --}}
                                         {{-- si el usuario seleciona la opcion uno (talla), sus correspondencia (Relaciones), van a estar dentro del badge Dark --}}
 
+
+
                                         <span
-                                            class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-400 border border-gray-500">
+                                            class="mb-2 bg-gray-100 text-gray-800 text-xs font-medium me-2 pl-2.5 pr-1.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-400 border border-gray-500">
                                            {{$feature->description}}
+                                           <button type="button" class="ml-0.5"
+                                                   onclick="confirmDelete({{$feature->id}},'feature')"
+                                                  {{--wire:click="deleteFeature({{$feature->id}}) --}}>
+                                                <i class="fa-solid fa-xmark hover:text-red-500"></i>
+                                           </button>
+
                                             </span>
+
+
 
 
 
                                         @break
                                     @case(2)
                                         {{-- Color --}}
-                                        <span
-                                            class="inline-block h-6 w-6 shadow-lg rounded-full border-2 border-gray-300 mr-4"
-                                            style="background-color: {{$feature->value}}">
-
-
+                                        <div class="relative">
+                                            <span
+                                                class="inline-block h-6 w-6 shadow-lg rounded-full border-2 border-gray-300 mr-4"
+                                                style="background-color: {{$feature->value}}">
 
                                     </span>
+                                            <button
+                                                class="absolute z-10 left-3 -top-2 rounded-full bg-red-500 hover:bg-red-600 h-4 w-4 flex justify-center item-center"
+                                                {{-- item-center mantengo la x en el centro del circulo --}}
+                                                onclick="confirmDelete({{$feature->id}},'feature')"
+                                                {{-- wire:click="deleteFeature({{$feature->id}})" --}}>
+                                                <i class="fa-solid fa-xmark text-white text-xs"></i>
+                                            </button>
+
+                                        </div>
                                         @break
                                     @default
 
                                 @endswitch
 
                             @endforeach
+
+                        </div>
+                        {{-- debajo de las features --}}
+                        <div>
+                            {{--  redirecciono a la vista del componente del compoente add-new-feature  --}}
+                            {{-- @dump($option) --}}
+                            @livewire('admin.options.add-new-feature',['option'=>$option], key('add-new-feature-'.$option->id))
+
 
                         </div>
 
@@ -89,13 +124,14 @@
 
         {{--Defino el segundo slot, hace referencia al slot con el nombre 'content' --}}
         <x-slot name="content">
-           <x-validation-errors class="mb-4"/>
+            <x-validation-errors class="mb-4"/>
             <div class="grid grid-cols-2 gap-6 mb-4">
                 {{-- Creo una grilla con dos columnas y con una separacion de 6 --}}
                 <div>
                     <x-label class="mb-1">Nombre</x-label>
                     {{-- newOption.name es una referencia al atributo public $newOption['name'], se envia data al backend--}}
-                    <x-input class="w-full" wire:model="newOptionForm.name" placeholder="Por ejemplo: Tamanio, Color.."/>
+                    <x-input class="w-full" wire:model="newOptionForm.name"
+                             placeholder="Por ejemplo: Tamanio, Color.."/>
 
 
                 </div>
@@ -161,7 +197,6 @@
 
                                 @switch($newOptionForm->type)
 
-
                                     @case(1)
                                         {{-- si case es 1, se muestra el input de texto- --}}
                                         <x-input class="w-full" wire:model="newOptionForm.features.{{$index}}.value"
@@ -173,7 +208,7 @@
                                         <div
                                             class="border border-gray-300 h-[42px] rounded-md flex items-center p-3 flex justify-between">
                                             {{-- si case es 2, se muestra el input de color- --}}
-                                            {{$newOptionForm->features[$index]['description'] ?: 'Selecione un color'}}
+                                            {{$newOptionForm->features[$index]['value'] ?: 'Selecione un color'}}
                                             {{-- ?: --}}
                                             {{-- objeto ?(verifica que la variable este definida) :(verifica que tenga valor no nulo) 'una sentencia '  --}}
                                             <x-input type="color"
@@ -220,9 +255,9 @@
         {{--Defino el tercer slot, hace referencia al slot con el nombre 'footer' --}}
         <x-slot name="footer">
 
-                <button class="btn btn-blue" wire:click="addOpt">
-                        Registrar Nuevo
-                </button>
+            <button class="btn btn-blue" wire:click="addOpt">
+                Registrar Nuevo
+            </button>
 
 
         </x-slot>
@@ -230,17 +265,52 @@
     </x-dialog-modal>
     {{--@dump($newOption)--}}
 
+    @push('js')
+        <script>
+            function confirmDelete(id, type) {
+
+                //muesto el id del elemento a eliminar -> alert(featureId);
+                Swal.fire({
+                    title: "Esta seguro ?",
+                    text: "No  podras revertir la operacion!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Si, borralo!",
+                    cancelButtonText: "Cancelar",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        //alert(featureId);
+                        //utilizo la directiva o referencia ar@bathis.call('nombreDelMetodoComponenteLiveWire',featureId);
+
+                        switch (type) {
+                            case'feature': {
+                                //alert(id);
+                                @this.
+                                call('deleteFeature', id);
+
+                            }
+                                break;
+                            case'option': {
+                                //alert(id);
+                                @this.
+                                call('deleteOption', id);
+
+                            }
+                                break;
+
+
+                        }
+
+
+                    }
+
+                });
+
+
+            }
+        </script>
+
+    @endpush
 </div>
-
-{{--
-    @isset($newOption['features'])
-                    @php
-                        $features = $newOption['features'];
-                        $length = count($features)-1;
-                        //dd($length);
-                   // dd($newOption['features'][1]);
-                    @endphp
-                    @for($index=0; $index < $length; $index++)
-                        {{--   {{ $i }}: {{ $features[$i]['value'] ?? '' }} - {{ $features[$i]['description'] ?? '' }} --}}
-
-
