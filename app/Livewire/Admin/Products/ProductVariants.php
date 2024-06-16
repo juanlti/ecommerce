@@ -80,10 +80,28 @@ class ProductVariants extends Component
 
     public function saveFeature()
     {
+
+        $this->validate([
+            'variantsSelect.option_id'=> 'required',
+            'variantsSelect.features.*.id'=> 'required',
+            'variantsSelect.features.*.value'=> 'required',
+            'variantsSelect.features.*.description'=> 'required',
+        ]);
+
         //dd($this->variantsSelect);
         //metodo attach, se encarga de guardar en la tabla pivote (o intermedia) OptionsProductos
+
         $this->product->options()->attach($this->variantsSelect['option_id'],
         ['features' => $this->variantsSelect['features']]);
+        // ['features' => $this->variantsSelect['features']] => se guarda en la tabla pivote en formato json de manera automatica
+        // porque el modelo OptionProduct tiene el atributo $casts = ['features' => 'array'];
+
+        //falta crear las variantes en la tabla products
+
+        //borro los valores de features por cambio de Option
+        $this->reset(['variantsSelect','openModal']);
+
+
     }
 
     public function feature_change($index)

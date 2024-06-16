@@ -13,9 +13,9 @@ return new class extends Migration {
         Schema::create('option_product', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('options_id')->constrained();
+            $table->foreignId('option_id')->constrained();
             //  options (1) ---> option_product (m)
-            $table->foreignId('products_id')->constrained();
+            $table->foreignId('product_id')->constrained();
             // products (1) --> option_product (m)
             $table->json('features');
             //features contiene todos los valores selecionados de un producto

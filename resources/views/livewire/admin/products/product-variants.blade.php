@@ -17,6 +17,9 @@
                 <x-slot name="title">Agregar nueva opción</x-slot>
 
                 <x-slot name="content">
+                    {{-- Defino el contenido del modal --}}
+                    {{-- Defino los mensajes de validaciones --}}
+                    <x-validation-errors class="mb-4"/>
                     <div class="mb-4">
                         <x-label class="mb-1">Opción</x-label>
                         <x-select class="w-full" wire:model.live="variantsSelect.option_id">

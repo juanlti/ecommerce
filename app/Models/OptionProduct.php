@@ -8,8 +8,9 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 class OptionProduct extends Pivot
 {
     use HasFactory;
-    protected $cast=[
-        'features'=>'array'
+
+    protected $casts = [
+        'features' => 'array'
     ];
 
 
