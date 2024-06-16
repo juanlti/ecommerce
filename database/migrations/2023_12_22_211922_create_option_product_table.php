@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -18,8 +17,8 @@ return new class extends Migration
             //  options (1) ---> option_product (m)
             $table->foreignId('products_id')->constrained();
             // products (1) --> option_product (m)
-            $table->string('value');
-            //este value hace referencia al value de Features
+            $table->json('features');
+            //features contiene todos los valores selecionados de un producto
             $table->timestamps();
         });
     }

@@ -18,8 +18,8 @@ class Option extends Model
     // MUCHOS A MUCHOS
     public function products(): BelongsToMany
     {
-
-        return $this->belongsToMany(Product::class)->whithPivot('value')->withTimestamps();
+        //using(OptionProduct::class) => lo convierte a json al momento de guardarlo/consultarlo utilizando eloquent
+        return $this->belongsToMany(Product::class)->using(OptionProduct::class)->whithPivot('features')->withTimestamps();
 
 
     }
