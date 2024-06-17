@@ -79,11 +79,13 @@
 
                                     </span>
                                             <button
+
                                                 class="absolute z-10 left-3 -top-2 rounded-full bg-red-500 hover:bg-red-600 h-4 w-4 flex justify-center item-center"
                                                 {{-- item-center mantengo la x en el centro del circulo --}}
                                                 onclick="confirmDelete({{$feature->id}},'feature')"
                                                 {{-- wire:click="deleteFeature({{$feature->id}})" --}}>
                                                 <i class="fa-solid fa-xmark text-white text-xs"></i>
+
                                             </button>
 
                                         </div>
@@ -125,6 +127,7 @@
         {{--Defino el segundo slot, hace referencia al slot con el nombre 'content' --}}
         <x-slot name="content">
             <x-validation-errors class="mb-4"/>
+
             <div class="grid grid-cols-2 gap-6 mb-4">
                 {{-- Creo una grilla con dos columnas y con una separacion de 6 --}}
                 <div>

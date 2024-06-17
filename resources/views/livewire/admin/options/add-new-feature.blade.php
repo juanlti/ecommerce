@@ -3,6 +3,7 @@
 
     <form class="flex space-x-4" wire:submit="addFeature">
         {{-- flex => ocupa todo el ancho --}}
+        {{-- space-x-4 => separacion entre los elementos --}}
 
         <div class="flex-1">
                 {{--  ocupa todo el posible, para mostrar el tipo de opcion, si es Texto o Color--}}
