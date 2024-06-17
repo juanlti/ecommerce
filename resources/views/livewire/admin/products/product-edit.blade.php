@@ -187,6 +187,7 @@
             <div class="mt-4 flex justify-end">
 
 
+
                     <x-danger-button onclick="confirmDelete()">
                         <!-- 1 PASO: ACCION DEL BOTON -->
                         Eliminar

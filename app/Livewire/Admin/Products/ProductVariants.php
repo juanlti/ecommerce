@@ -3,10 +3,12 @@
 namespace App\Livewire\Admin\Products;
 
 use Livewire\Attributes\Computed;
+use Illuminate\Http\Request;
 use Livewire\Component;
 use App\Models\Option;
 use App\Models\Feature;
-
+use App\Models\OptionProduct;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class ProductVariants extends Component
 {
     public $openModal = false;
@@ -60,6 +62,29 @@ class ProductVariants extends Component
             'description' => '',
         ];
     }
+    public function deleteFeature($optionId, $featureId) {
+        // dd($optionId->toArray(), $featureId->toArray());
+        // $this->product->options()->updateExistingPivo => Actualiza un campo features (de tipo json) dentro de la tabla pivote 'options_product'.
+        //  filtrando por $optionId y eliminando el feature con el ID $featureId.
+        //array_filter(argumento A->pivot->features, argumento B)
+        //  argumento A=> Filtra o busca el registro  option_id  la coincidencia de $optionId.
+        // A->pivot->features => Obtenemos el valor completo del campo 'features' asociado a $optionId
+        //  argumento B (funcion anonima) => function ($feature) use ($featureId) {
+        //  //$featureId es el feature que quiero eliminar, retornando todos los features que no coincidan con $featureId.
+        // return $feature['id'] != $featureId;}
+        // array_filter le indicamos que compare el ID de cada objeto Feature con el ID de $featureId.
+
+
+        $this->product->options()->updateExistingPivot($optionId, [
+            'features' => array_filter($this->product->options()->find($optionId)->pivot->features, function($feature) use ($featureId) {
+                return $feature['id'] != $featureId;
+            })
+        ]);
+        // Actualizo la instancia de $product
+        $this->product = $this->product->fresh();
+
+
+    }
 
     public function mount()
     {
@@ -78,6 +103,18 @@ class ProductVariants extends Component
 
     }
 
+    public function deleteOption($optionId)
+    {
+        // dd($optionId->toArray());
+        // $this->product->options() => accedemos a la tabla de intermedia Option_Product de la relacion muchos a muchos
+        // Elimina la opción seleccionada
+        $this->product->options()->detach($optionId);
+        // Actualizo la instancia de $product
+        $this->product = $this->product->fresh();
+
+
+    }
+
     public function saveFeature()
     {
 
@@ -91,12 +128,13 @@ class ProductVariants extends Component
         //dd($this->variantsSelect);
         //metodo attach, se encarga de guardar en la tabla pivote (o intermedia) OptionsProductos
 
-        $this->product->options()->attach($this->variantsSelect['option_id'],
-        ['features' => $this->variantsSelect['features']]);
+        $this->product->options()->attach($this->variantsSelect['option_id'],['features' => $this->variantsSelect['features']]);
         // ['features' => $this->variantsSelect['features']] => se guarda en la tabla pivote en formato json de manera automatica
         // porque el modelo OptionProduct tiene el atributo $casts = ['features' => 'array'];
+             $featureEncontrado = OptionProduct::find($this->variantsSelect['option_id'])->get();
 
         //falta crear las variantes en la tabla products
+        $this->product=$this->product->fresh();
 
         //borro los valores de features por cambio de Option
         $this->reset(['variantsSelect','openModal']);
