@@ -62,7 +62,9 @@ class ProductVariants extends Component
             'description' => '',
         ];
     }
+    /*
     public function deleteFeature($optionId, $featureId) {
+
         // dd($optionId->toArray(), $featureId->toArray());
         // $this->product->options()->updateExistingPivo => Actualiza un campo features (de tipo json) dentro de la tabla pivote 'options_product'.
         //  filtrando por $optionId y eliminando el feature con el ID $featureId.
@@ -85,6 +87,31 @@ class ProductVariants extends Component
 
 
     }
+    */
+    public function deleteFeature($optionId, $featureId)
+    {
+        // Buscar la relación en la tabla pivote
+        $optionProduct = $this->product->options()->find($optionId);
+        //dd($optionProduct->toArray());
+
+        // Asegurarse de que se encontró la relación y que tiene el campo features
+        if ($optionProduct && isset($optionProduct->pivot->features)) {
+            // Filtrar las características para eliminar la que coincide con featureId
+            $filteredFeatures = array_filter($optionProduct->pivot->features, function($feature) use ($featureId) {
+                return $feature['id'] != $featureId;
+            });
+
+            // Actualizar la tabla pivote con las características filtradas
+            $this->product->options()->updateExistingPivot($optionId, ['features' => $filteredFeatures]);
+
+            // Actualizar la instancia del producto
+            $this->product = $this->product->fresh();
+        } else {
+            // Manejar el caso donde no se encuentra la relación o no tiene el campo features
+            throw new \Exception("La relación no se encontró o no contiene el campo 'features'.");
+        }
+    }
+
 
     public function mount()
     {
@@ -114,7 +141,7 @@ class ProductVariants extends Component
 
 
     }
-
+/*
     public function saveFeature()
     {
 
@@ -141,6 +168,48 @@ class ProductVariants extends Component
 
 
     }
+*/
+    public function saveFeature()
+    {
+        // Validar los datos de entrada
+        $this->validate([
+            'variantsSelect.option_id' => 'required',
+            'variantsSelect.features.*.id' => 'required',
+            'variantsSelect.features.*.value' => 'required',
+            'variantsSelect.features.*.description' => 'required',
+        ]);
+
+        // Realizar la operación de attach para guardar en la tabla pivote OptionsProductos
+        $this->product->options()->attach($this->variantsSelect['option_id'], ['features' => $this->variantsSelect['features']]);
+
+        // Verificar si la operación de attach se completó exitosamente
+        // Capturar cualquier excepción para asegurar que el flujo de ejecución no continúe en caso de error
+        try {
+            // Buscar la opción del producto recién adjuntado
+            $featureEncontrado = OptionProduct::where('option_id', $this->variantsSelect['option_id'])
+                ->where('product_id', $this->product->id)
+                ->first();
+            dd($featureEncontrado->toArray());
+
+            if ($featureEncontrado) {
+                // Aquí puedes agregar la lógica que depende de $featureEncontrado
+                // Por ejemplo, crear variantes en la tabla products
+                $this->product = $this->product->fresh();
+
+                // Borrar los valores de features por cambio de Option
+                $this->reset(['variantsSelect', 'openModal']);
+            } else {
+                // Manejar el caso donde no se encuentra la opción del producto
+                // Puedes lanzar una excepción o manejar el error según sea necesario
+                throw new \Exception('No se encontró la opción del producto después de adjuntar.');
+            }
+        } catch (\Exception $e) {
+            // Manejar la excepción, por ejemplo, registrándola o lanzando una excepción personalizada
+            // Log::error($e->getMessage());
+            throw new \Exception('Error al adjuntar la opción al producto: ' . $e->getMessage());
+        }
+    }
+
 
     public function feature_change($index)
     {
