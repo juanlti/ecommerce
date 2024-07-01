@@ -1,6 +1,7 @@
 <div>
+
     {{-- Comentario: Mensaje motivacional --}}
-    <section class="rounded-lg bg-white shadow-lg border border-gray-100">
+    <section class="rounded-lg bg-white shadow-lg border border-gray-100 mb-12">
         <header class="border-b border-gray-200 px-6 py-2">
             <div class="flex justify-between">
                 {{-- Comentario: Los elementos estarán en extremos opuestos --}}
@@ -42,17 +43,17 @@
 
                                 @foreach($option->pivot->features as $feature)
                                     {{--$option->pivot => acceso a la tabla pivote , pivot->features=> obtengo el json (todos los features en array) pertenecientes a un producto --}}
+                                    <div wire:key="option-{{$option->id}}-feature-{{$feature['id']}}">
+                                        {{-- llave unica con dos parametros --}}
+                                        @switch($option->type)
+                                            @case(1)
+                                                {{-- Talla --}}
+                                                {{-- si el usuario seleciona la opcion uno (talla), sus correspondencia (Relaciones), van a estar dentro del badge Dark --}}
 
 
-                                    @switch($option->type)
-                                        @case(1)
-                                            {{-- Talla --}}
-                                            {{-- si el usuario seleciona la opcion uno (talla), sus correspondencia (Relaciones), van a estar dentro del badge Dark --}}
 
-
-
-                                            <span
-                                                class="mb-2 bg-gray-100 text-gray-800 text-xs font-medium me-2 pl-2.5 pr-1.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-400 border border-gray-500">
+                                                <span
+                                                    class="mb-2 bg-gray-100 text-gray-800 text-xs font-medium me-2 pl-2.5 pr-1.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-400 border border-gray-500">
                                            {{$feature['description']}}
                                            <button type="button" class="ml-0.5"
                                                    onclick="confirmDeleteFeature({{$option->id}},{{$feature['id']}})">
@@ -65,10 +66,10 @@
 
 
 
-                                            @break
-                                        @case(2)
-                                            {{-- Color --}}
-                                            <div class="relative">
+                                                @break
+                                            @case(2)
+                                                {{-- Color --}}
+                                                <div class="relative">
                                             <span
                                                 class="inline-block h-6 w-6 shadow-lg rounded-full border-2 border-gray-300 mr-4"
                                                 style="background-color: {{$feature['value']}}">
@@ -86,13 +87,13 @@
                                                 </button>
                                                    </span>
 
-                                            </div>
-                                            @break
-                                        @default
-                                            @break
+                                                </div>
+                                                @break
+                                            @default
+                                                @break
 
-                                    @endswitch
-
+                                        @endswitch
+                                    </div>
                                 @endforeach
 
                             </div>
@@ -121,6 +122,47 @@
 
                 </div>
                 <div>
+                    {{-- NUEVO  --}}
+                    <section class="rounded-lg bg-white shadow-lg border border-gray-100">
+                        <header class="border-b border-gray-200 px-6 py-2">
+                            <div class="flex justify-between">
+                                {{-- Comentario: Los elementos estarán en extremos opuestos --}}
+                                <h1 class="text-lg font-semibold text-gray-700">Variantes</h1>
+
+                            </div>
+                        </header>
+
+                        <div class="p-6">
+                            <ul class="divide-y -my-4">
+                                @foreach($product->variant as $variante)
+                                    {{--   @foreach($product->variant as $variant) -> si $variant se encuentra definida en el componente, por lo tanto el valor anterior es reemplazo por la imagen --}}
+                                    <li class="py-4 flex item-center">
+                                        {{-- flex  => permite agregar una informacion al costado de la imagen, y flex item-center centro la imagen + informacion--}}
+
+                                        <img src="{{ $variante->image}}" class="w-12 h-12 object-cover object-center">
+                                            {{-- para evitar deformacion en la imagen =>  class="object-cover" --}}
+                                        <p class="divide-x">
+                                            {{$variante}}
+                                            @foreach($variante->features as $feature)
+
+                                                <span class="px-3">
+
+                                                    {{$feature->description}}
+
+                                                </span>
+
+                                            @endforeach
+
+                                        </p>
+                                        {{-- utilizo el name de route para dirigirme --}}
+
+                                        <a href="{{route('admin.products.variants',['product'=>$product,'variant'=>$variante])}}" class="ml-auto btn btn-blue">Editar</a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </section>
+                    {{--  FIN NUEVO  --}}
 
                     <x-dialog-modal wire:model="openModal">
                         {{-- Defino los slots requeridos para el componente x-dialog-modal --}}
@@ -229,6 +271,7 @@
 
     </section>
 
+
     @push('js')
         <script>
             function confirmDeleteFeature(option_id, feature_id) {
@@ -279,5 +322,5 @@
         </script>
 
     @endpush
-  </div>
+</div>
 </div>

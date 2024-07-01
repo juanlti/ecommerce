@@ -11,7 +11,7 @@ class Option extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'type'];
+    protected $fillable = ['name', 'type','id'];
 
 
     //Relacion (INVERSA) Opciones (m) a Productos (m)
@@ -30,6 +30,11 @@ class Option extends Model
     {
         return $this->hasMany(Feature::class);
 
+    }
+
+    public function name():String
+    {
+        return $this->name;
     }
 
 

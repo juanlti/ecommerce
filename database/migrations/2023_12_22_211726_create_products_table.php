@@ -20,7 +20,7 @@ return new class extends Migration
             $table->float('price');
             // subCategory (1) --> Producto (m)
             //constrained es la llave foranea
-            $table->foreignId('subcategory_id')->constrained();
+            $table->foreignId('subcategory_id')->constrained()->onDelete('cascade');
 
             $table->timestamps();
         });

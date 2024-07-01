@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('feature_variant', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('features_id')->constrained()->onDelete('cascade');
+            $table->foreignId('feature_id')->constrained()->onDelete('cascade')->cascadeOnUpdate();
             // feauture (1) --> feature_variant ( m)
-            $table->foreignId('variants_id')->constrained()->onDelete('cascade');
+            $table->foreignId('variant_id')->constrained()->onDelete('cascade')->cascadeOnUpdate();
             // variants (1) --> feature_variant (m)
             $table->timestamps();
         });

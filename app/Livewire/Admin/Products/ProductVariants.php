@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Livewire\Component;
 use App\Models\Option;
 use App\Models\Feature;
+use App\Models\Product;
+use App\Models\Variant;
 use App\Models\OptionProduct;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class ProductVariants extends Component
@@ -128,10 +130,16 @@ class ProductVariants extends Component
         //creo un nuevo array con los valores que no son nulos
         $this->variantsSelect['features'] = array_values($this->variantsSelect['features']);
 
+        // Eliminar  las variantes del producto
+        $this->generarVariantes();
+
     }
 
     public function deleteOption($optionId)
     {
+
+
+
         // dd($optionId->toArray());
         // $this->product->options() => accedemos a la tabla de intermedia Option_Product de la relacion muchos a muchos
         // Elimina la opción seleccionada
@@ -139,36 +147,84 @@ class ProductVariants extends Component
         // Actualizo la instancia de $product
         $this->product = $this->product->fresh();
 
+        // Eliminar  las variantes del producto
+        $this->generarVariantes();
+
 
     }
-/*
-    public function saveFeature()
+
+
+    protected function generarVariantes(){
+        //var_dump($this->product->id);
+        $productoSelecionado = Product::find($this->product->id);
+        $featureProductoSelecionado = $productoSelecionado->options->pluck('pivot.features');
+        // variantas de un producto seleccionado
+        //dd( ($featureProductoSelecionado->toArray()));
+        $todasLasCombinaciones = $this->generarCombinaciones($featureProductoSelecionado);
+        // elimino las variantes anteriores, y las vuelvo a crear sumando las actuales
+        $this->product->variant()->delete();
+        foreach ($todasLasCombinaciones as $unaCombinacion) {
+            $unaVarianteDelProductoSelecionado = Variant::create([
+                'product_id' => $this->product->id,
+            ]);
+
+            // Uso correcto del método attach
+            $unaVarianteDelProductoSelecionado->features()->attach($unaCombinacion);
+        }
+
+        //return "Variante creada con exito";
+
+    }
+   public function generarCombinaciones($arrays, $indice = 0, $combinacion = [])
     {
 
-        $this->validate([
-            'variantsSelect.option_id'=> 'required',
-            'variantsSelect.features.*.id'=> 'required',
-            'variantsSelect.features.*.value'=> 'required',
-            'variantsSelect.features.*.description'=> 'required',
-        ]);
+        if ($indice == count($arrays)) {
+            return [$combinacion];
+        }
+        $resultado = [];
+        foreach ($arrays[$indice] as $item) {
+            $combinacionesTemporal = $combinacion;//['a','a']
+            // @var_dump($item);
+            $combinacionesTemporal[] = $item['id']; //['a','a','a']
+            // var_dump($combinacionesTemporal);
+            //  @var_dump($combinacionesTemporal);
+            //combinacion de un solo array en un resultado final
+            $resultado = array_merge($resultado, $this->generarCombinaciones($arrays, $indice + 1, $combinacionesTemporal));
 
-        //dd($this->variantsSelect);
-        //metodo attach, se encarga de guardar en la tabla pivote (o intermedia) OptionsProductos
 
-        $this->product->options()->attach($this->variantsSelect['option_id'],['features' => $this->variantsSelect['features']]);
-        // ['features' => $this->variantsSelect['features']] => se guarda en la tabla pivote en formato json de manera automatica
-        // porque el modelo OptionProduct tiene el atributo $casts = ['features' => 'array'];
-             $featureEncontrado = OptionProduct::find($this->variantsSelect['option_id'])->get();
-
-        //falta crear las variantes en la tabla products
-        $this->product=$this->product->fresh();
-
-        //borro los valores de features por cambio de Option
-        $this->reset(['variantsSelect','openModal']);
-
+        }
+        return $resultado;
 
     }
-*/
+
+    /*
+        public function saveFeature()
+        {
+
+            $this->validate([
+                'variantsSelect.option_id'=> 'required',
+                'variantsSelect.features.*.id'=> 'required',
+                'variantsSelect.features.*.value'=> 'required',
+                'variantsSelect.features.*.description'=> 'required',
+            ]);
+
+            //dd($this->variantsSelect);
+            //metodo attach, se encarga de guardar en la tabla pivote (o intermedia) OptionsProductos
+
+            $this->product->options()->attach($this->variantsSelect['option_id'],['features' => $this->variantsSelect['features']]);
+            // ['features' => $this->variantsSelect['features']] => se guarda en la tabla pivote en formato json de manera automatica
+            // porque el modelo OptionProduct tiene el atributo $casts = ['features' => 'array'];
+                 $featureEncontrado = OptionProduct::find($this->variantsSelect['option_id'])->get();
+
+            //falta crear las variantes en la tabla products
+            $this->product=$this->product->fresh();
+
+            //borro los valores de features por cambio de Option
+            $this->reset(['variantsSelect','openModal']);
+
+
+        }
+    */
     public function saveFeature()
     {
         // Validar los datos de entrada
@@ -189,12 +245,15 @@ class ProductVariants extends Component
             $featureEncontrado = OptionProduct::where('option_id', $this->variantsSelect['option_id'])
                 ->where('product_id', $this->product->id)
                 ->first();
-            dd($featureEncontrado->toArray());
+            //dd($featureEncontrado->toArray());
 
             if ($featureEncontrado) {
                 // Aquí puedes agregar la lógica que depende de $featureEncontrado
                 // Por ejemplo, crear variantes en la tabla products
                 $this->product = $this->product->fresh();
+
+                // Generar las variantes del producto
+                $this->generarVariantes();
 
                 // Borrar los valores de features por cambio de Option
                 $this->reset(['variantsSelect', 'openModal']);

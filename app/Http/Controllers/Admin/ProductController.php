@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\Variant;
 use Illuminate\Http\Request;
 
 use \Illuminate\Support\Facades\Storage;
@@ -88,6 +89,17 @@ class ProductController extends Controller
         return redirect()->route('admin.products.index');
 
 
+
+    }
+
+    public function variants(Product $product, Variant $variant){
+        // retorna la vista con las variantes de un producto
+       //return "Producto : .$product. y sus variantes .$variant";
+        if($variant==null){
+            return "no hay informacion de variantes";
+        }else{
+            return $variant;
+        }
 
     }
 }

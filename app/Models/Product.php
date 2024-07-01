@@ -11,8 +11,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Product extends Model
 {
     use HasFactory;
-    protected $guarded=['timestamps'];
-    protected $fillable=['name','slug','description','price','subcategory_id','image','option_id'];
+
+    protected $fillable=['name','slug','description','price','subcategory_id','image','option_id','id'];
 
 
 
@@ -23,7 +23,7 @@ class Product extends Model
 
 
     // relacion de Products (1) a Feature (m)
-    public function variant():HasMany{
+    public function variants():HasMany{
         return $this->hasMany(Variant::class);
     }
 

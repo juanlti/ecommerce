@@ -17,13 +17,13 @@ class Feature extends Model
 
 
 // relacion (inversa) Options (1) a  Features(m)
-public function options():BelongsTo{
-    return $this->belongsTo(Option::class);
+public function options():BelongsToMany{
+    return $this->belongsToMany(Option::class);
 
 }
 
 //relacion (inversa) Variants  (m) a Feature (m)
-public function variants():BelongsToMany{
+public function variants():belongsToMany{
 return $this->belongsToMany(Variant::class)->withTimestamps();
 }
 }

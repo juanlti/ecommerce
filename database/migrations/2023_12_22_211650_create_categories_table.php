@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             //relacion de tablas  family (1) -> categories (m)
             //constrained es la llave foranea
-            $table->foreignId('family_id')->constrained();
+            $table->foreignId('family_id')->constrained()->onDelete('cascade');
 
             $table->timestamps();
         });

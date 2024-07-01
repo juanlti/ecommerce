@@ -1,6 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\Product;
+use App\Models\Variant;
+use App\Models\Feature;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +33,7 @@ Route::middleware([
 
 
 Route::get('prueba', function () {
+    /*
     $combinacion1 = ['a', 'b', 'c'];
     $combinacion2 = ['a', 'b', 'c'];
     $combinacion3 = ['a', 'b', 'c'];
@@ -36,9 +41,26 @@ Route::get('prueba', function () {
     $todasLasCombionaciones = [$combinacion1, $combinacion2, $combinacion3];
     $todasLasCombionaciones = generarCombinaciones($todasLasCombionaciones,);
     return $todasLasCombionaciones;
+    */
 
+        $productoSelecionado = Product::find(99);
+        $featureProductoSelecionado = $productoSelecionado->options->pluck('pivot.features');
+        // variantas de un producto seleccionado
+        //dd( ($featureProductoSelecionado->toArray()));
+        $todasLasCombinaciones = generarCombinaciones($featureProductoSelecionado);
+        // elimino las variantes anteriores, y las vuelvo a crear sumando las actuales
+        $productoSelecionado->variant()->delete();
+        foreach ($todasLasCombinaciones as $unaCombinacion) {
+            $unaVarianteDelProductoSelecionado = Variant::create([
+                'product_id' => $productoSelecionado->id,
+            ]);
 
-});
+            // Uso correcto del método attach
+            $unaVarianteDelProductoSelecionado->features()->attach($unaCombinacion);
+        }
+
+        return "Variante creada con exito";
+    });
 
 function generarCombinaciones($arrays, $indice = 0, $combinacion = [])
 {
@@ -49,12 +71,12 @@ function generarCombinaciones($arrays, $indice = 0, $combinacion = [])
     $resultado = [];
     foreach ($arrays[$indice] as $item) {
         $combinacionesTemporal = $combinacion;//['a','a']
-       // @var_dump($item);
-        $combinacionesTemporal[] = $item; //['a','a','a']
-      //  @var_dump($combinacionesTemporal);
+        // @var_dump($item);
+        $combinacionesTemporal[] = $item['id']; //['a','a','a']
+       // var_dump($combinacionesTemporal);
+        //  @var_dump($combinacionesTemporal);
         //combinacion de un solo array en un resultado final
-        $resultado=array_merge($resultado,generarCombinaciones($arrays, $indice + 1, $combinacionesTemporal));
-
+        $resultado = array_merge($resultado, generarCombinaciones($arrays, $indice + 1, $combinacionesTemporal));
 
 
     }
