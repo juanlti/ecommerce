@@ -54,7 +54,9 @@ class ProductCreate extends Component
         // verificacion es correcta, le asigno el valor de la propiedad $this->category_id al arreglo que contiene todos los atributos para crear un objeto Product
         $this->product['subcategory_id'] = $this->subcategory_id;
         //Cargo la imagen en la carpeta producto y nos devuelve el path de su nueva ubicacion
-        $pathImage = $this->image->store('products');
+        $pathImage = $this->image->store('public/products');
+
+        //dd($pathImage);
         $this->product['image_path'] = $pathImage;
         // creo el producto, con todos los atributos necesarios, por esa razon estoy utilizando un ORM de asignacion masiva
         $newProduct = Product::create($this->product);

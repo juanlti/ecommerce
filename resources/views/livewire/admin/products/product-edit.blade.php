@@ -183,6 +183,22 @@
                 </x-input>
 
             </div>
+            @empty($product->variants->count()>0)
+
+
+            <x-label class="mb-1">
+                Stock
+            </x-label>
+            <x-input
+                type="number"
+                wire:model="productEdit.stock"
+                class="w-full"
+                placeholder="Porfavor ingrese una cantidad">
+            </x-input>
+
+        </div>
+        @endempty
+
 
             <div class="mt-4 flex justify-end">
 
