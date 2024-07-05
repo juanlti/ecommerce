@@ -162,7 +162,7 @@ class ProductVariants extends Component
         //dd( ($featureProductoSelecionado->toArray()));
         $todasLasCombinaciones = $this->generarCombinaciones($featureProductoSelecionado);
         // elimino las variantes anteriores, y las vuelvo a crear sumando las actuales
-        $this->product->variant()->delete();
+        $this->product->variants()->delete();
         foreach ($todasLasCombinaciones as $unaCombinacion) {
             $unaVarianteDelProductoSelecionado = Variant::create([
                 'product_id' => $this->product->id,
@@ -172,7 +172,8 @@ class ProductVariants extends Component
             $unaVarianteDelProductoSelecionado->features()->attach($unaCombinacion);
         }
 
-        //return "Variante creada con exito";
+        //emito un evento (accion), y este llama al metodo con el sobre nombre de 'variant-generate'
+        $this->dispatch('variant-generate');
 
     }
    public function generarCombinaciones($arrays, $indice = 0, $combinacion = [])
@@ -233,6 +234,7 @@ class ProductVariants extends Component
             'variantsSelect.features.*.id' => 'required',
             'variantsSelect.features.*.value' => 'required',
             'variantsSelect.features.*.description' => 'required',
+
         ]);
 
         // Realizar la operación de attach para guardar en la tabla pivote OptionsProductos

@@ -10,6 +10,8 @@
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        <!-- Fonts Awesome -->
+        <script src="https://kit.fontawesome.com/520678b794.js" crossorigin="anonymous"></script>
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -21,8 +23,9 @@
         <x-banner />
 
         <div class="min-h-screen bg-gray-100">
-            @livewire('navigation-menu')
-
+          {{--  @livewire('navigation-menu') --}}
+            {{-- utilizo el componente navigation propio--}}
+            @livewire('navigation')
             <!-- Page Heading -->
             @if (isset($header))
                 <header class="bg-white shadow">

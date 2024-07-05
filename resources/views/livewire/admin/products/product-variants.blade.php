@@ -1,7 +1,7 @@
 <div>
 
     {{-- Comentario: Mensaje motivacional --}}
-    <section class="rounded-lg bg-white shadow-lg border border-gray-100 mb-12">
+    <section class="rounded-lg bg-white shadow-lg border border-gray-100">
         <header class="border-b border-gray-200 px-6 py-2">
             <div class="flex justify-between">
                 {{-- Comentario: Los elementos estarán en extremos opuestos --}}
@@ -123,7 +123,10 @@
                 </div>
                 <div>
                     {{-- NUEVO  --}}
-                    <section class="rounded-lg bg-white shadow-lg border border-gray-100">
+                    @if($product->variants->count())
+
+
+                    <section class="rounded-lg bg-white shadow-lg border border-gray-100 mt-12">
                         <header class="border-b border-gray-200 px-6 py-2">
                             <div class="flex justify-between">
                                 {{-- Comentario: Los elementos estarán en extremos opuestos --}}
@@ -134,16 +137,15 @@
 
                         <div class="p-6">
                             <ul class="divide-y -my-4">
-                                @foreach($product->variant as $variante)
+                                @foreach($product->variants as $unaVariante)
                                     {{--   @foreach($product->variant as $variant) -> si $variant se encuentra definida en el componente, por lo tanto el valor anterior es reemplazo por la imagen --}}
                                     <li class="py-4 flex item-center">
                                         {{-- flex  => permite agregar una informacion al costado de la imagen, y flex item-center centro la imagen + informacion--}}
 
-                                        <img src="{{ $variante->image}}" class="w-12 h-12 object-cover object-center">
+                                        <img src="{{ $unaVariante->image}}" class="w-12 h-12 object-cover object-center">
                                             {{-- para evitar deformacion en la imagen =>  class="object-cover" --}}
                                         <p class="divide-x">
-                                            {{$variante}}
-                                            @foreach($variante->features as $feature)
+                                            @foreach($unaVariante->features as $feature)
 
                                                 <span class="px-3">
 
@@ -153,16 +155,18 @@
 
                                             @endforeach
 
+
                                         </p>
                                         {{-- utilizo el name de route para dirigirme --}}
 
-                                        <a href="{{route('admin.products.variants',['product'=>$product,'variant'=>$variante])}}" class="ml-auto btn btn-blue">Editar</a>
+                                        <a href="{{route('admin.products.variants',['product'=>$product,'variant'=>$unaVariante])}}" class="ml-auto btn btn-blue">Editar</a>
                                     </li>
                                 @endforeach
                             </ul>
                         </div>
                     </section>
                     {{--  FIN NUEVO  --}}
+                        @endif
 
                     <x-dialog-modal wire:model="openModal">
                         {{-- Defino los slots requeridos para el componente x-dialog-modal --}}

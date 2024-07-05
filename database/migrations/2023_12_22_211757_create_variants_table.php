@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('variants', function (Blueprint $table) {
             $table->id();
             $table->string('sku')->nullable();
+            $table->integer('stock')->unsigned()->default(0);
             $table->string('image_path')->nullable();
             // Products (1) ---> Variants (m)
             $table->foreignId('product_id')->constrained()->onDelete('cascade');

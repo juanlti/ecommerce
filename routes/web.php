@@ -43,8 +43,10 @@ Route::get('prueba', function () {
     return $todasLasCombionaciones;
     */
 
-        $productoSelecionado = Product::find(99);
+        $productoSelecionado = Product::find(100);
+        //dd($productoSelecionado);
         $featureProductoSelecionado = $productoSelecionado->options->pluck('pivot.features');
+    //dd($featureProductoSelecionado);
         // variantas de un producto seleccionado
         //dd( ($featureProductoSelecionado->toArray()));
         $todasLasCombinaciones = generarCombinaciones($featureProductoSelecionado);

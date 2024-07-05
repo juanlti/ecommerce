@@ -24,8 +24,13 @@ Route::resource('families',FamilyController::class);
 Route::resource('categories',CategoryController::class);
 Route::resource('subcategories',SubcategoryController::class);
 Route::resource('products',ProductController::class);
+
 Route::get('products/{product}/variants/{variant}',[ProductController::class,'variants'])
     ->name('products.variants')
+    ->scopeBindings();
+// se utiliza la sentencia de put para el update
+Route::put('products/{products}/variants/{variant}',[ProductController::class,'variantsUpadate'])
+    ->name('products.variantsUpadate')
     ->scopeBindings();
 // el idProducto=100. y la relacion idVariant=81 (correcto).
 //para evitar el problema de un producto con un id diferente.

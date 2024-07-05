@@ -9,7 +9,9 @@ use App\Models\Family;
 use App\Models\Product;
 use Livewire\Attributes\Computed;
 use Livewire\WithFileUploads;
-
+//use App\Livewire\Admin\Products\Storage;
+use Illuminate\Support\Facades\Storage;
+use Livewire\Attributes\On;
 
 class ProductEdit extends Component
 
@@ -27,6 +29,7 @@ class ProductEdit extends Component
     public $subcategory_id = '';
     public $image = null;
     public $imageEdit = '';
+    public $stock=0;
 
 
     /*
@@ -63,7 +66,7 @@ class ProductEdit extends Component
         //dd('estoy en el metodo mount');
         //para obtener algunos atributos del objeto $product, utilizo la funcion:
         //only('llave del campos'), y devuelve un arreglo
-        $this->productEdit = $product->only('sku', 'name', 'description', 'image_path', 'price', 'subcategory_id');
+        $this->productEdit = $product->only('sku', 'name', 'description', 'image_path', 'price', 'subcategory_id','stock');
         //$productEdit termina siendo un arreglo con los atributos solicitados
         //dd($this->productEdit);
 
@@ -82,6 +85,7 @@ class ProductEdit extends Component
         // categoria que pertecene
         $this->category_id = $product->subcategory->category->id;
         $this->subcategory_id = $product->subcategory->id;
+
 
 
         //dd( $this->category_id);
@@ -110,6 +114,14 @@ class ProductEdit extends Component
 
     }
 
+
+    // necesito que el metodo updateProduct se ejecute cuando se crea una variante
+
+    #[On('variant-generate')]
+    public function updateProduct(){
+        $this->product= $this->product->fresh();
+
+    }
 
     public function updatedFamilyId()
     {
@@ -165,21 +177,35 @@ class ProductEdit extends Component
             'productEdit.description' => 'nullable',
             'productEdit.price' => 'required|numeric|min:0',
             'productEdit.subcategory_id' => 'required|exists:subcategories,id',
+            'productEdit.stock' => 'required|numeric|min:0|max:1000',
 
             'family_id' => 'required|exists:families,id',
             'category_id' => 'required|exists:categories,id',
 
 
+
         ]);
         //si todo sale bien, ejecuto la proxima linea de codigo
 
+        /*
         //si existe una imagen, porque el usuario lo actualizo
         if($this->image){
+          // dd($this->productEdit['image_path']);
             //borro la imagen original
-            Storage::delete($this->productEdit['image_path']);
+            Storage::delete('products/'.$this->productEdit['image_path']);
+            //Storage::delete('products/'.$this->productEdit['image_path']);
             // guardo la imagen actualizada
             $this->productEdit['image_path']=$this->image-store('products');
 
+        }
+        */
+        if ($this->image) {
+            //dd($this->productEdit['image_path']);
+            // Borra la imagen original
+            Storage::delete($this->productEdit['image_path']);
+            //dd('despues de borrar');
+            // Guarda la imagen actualizada
+            $this->productEdit['image_path'] = $this->image->store('public/products');
         }
         $this->product->update($this->productEdit);
         /*
