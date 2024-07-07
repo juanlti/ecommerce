@@ -105,19 +105,20 @@
                         {{-- muestro todas las familias --}}
                         <ul>
                             @foreach($families as $family)
-                                <li>
-                                    <a href="{{route('admin.families.index')}}" class="flex justify-between items-center px-4 py-4 hover:bg-gray-100 hover:bg-purple-200">
+                                {{-- para obtener el objeto ( o una propiedad del mismo), cuando el cursor se encuentra posicionado, utilizamos  mouseover--}}
+                                {{-- $set('family_id',{{$family}}),  asigno el objeto a la variable family_id --}}
+                                {{--$set('family_id',{{$family}}),  setea los valores de manera automatica $('NombreDeLaPropiedad.valor)--}}
+                                <li wire:mouseover="$set('family_id',{{$family->id}})">
+                                    <a href="{{route('admin.families.index')}}"
+                                       class="flex justify-between items-center px-4 py-4 hover:bg-gray-100 hover:bg-purple-200">
                                         {{$family->name}}
 
                                         <i class="fa-solid fa-angle-right"> </i>
                                     </a>
                                 </li>
 
-
-
                             @endforeach
                         </ul>
-
 
 
                     </div>
@@ -125,16 +126,53 @@
 
                 </div>
 
-
+                {{--  comienzo del segundo Div ( informacion lateral ) --}}
                 <div class="w-80 xl:w-[57rem] pt-[52px] hidden md:block">
+
+
                     {{-- segundo  Div --}}
                     {{-- comienza despues del padding => pt-[52px] d--}}
                     {{-- "inicia con w-80  pero si la pantalla crece, pasa a  xl:w-[57rem]--}}
 
-                    <div class="h-[calc(100vh-52px)] overflow-auto bg-white">
+
+                    <div class="h-[calc(100vh-52px)] overflow-auto bg-white px-6 py-8">
+                        <div class="mb-8 flex justify-between items-center">
+                            {{-- un border parte inferior de 3 pixles --}}
+                            <p class="border-b-[3px] border-lime-400 uppercase text-xl font-semibold pb-1"> {{$this->familyName}}</p>
+                            <a href="" class="btn btn-purple">Ver todo</a>
+                        </div>
+
                         {{-- altura de la pantalla  menos la parte superior del desplazamiento  [calc(100vh-52px)] --}}
                         {{-- muestro el objeto families --}}
-                        {{$family_id}}
+                        {{--  {{$family_id}} --}}
+                        {{--  grid de 3 columnas  con separacion de cada columna --}}
+
+                        <ul class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+                            {{-- aa--}}
+
+                            @foreach($this->categories as $category)
+                                <li>
+                                    {{--  estilos para el objeto $category --}}
+                                    <a href="" class="text-purple-600 font-semibold text-lg">
+                                        {{$category->name}}
+                                    </a>
+
+                                    <ul class="mt-4 space-y-2">
+                                        @foreach($category->subcategory as $subcategory)
+                                            {{--  estilos para el objeto $subcategory --}}
+                                            <li>
+                                                <a href=""
+                                                   class="text-sm text-gray-700 hover:text-purple-600 font-semibold">
+                                                    {{$subcategory->name}}
+                                                </a>
+
+                                            </li>
+                                        @endforeach
+
+                                    </ul>
+                                </li>
+                            @endforeach
+                        </ul>
                     </div>
 
                 </div>

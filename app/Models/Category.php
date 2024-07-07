@@ -11,8 +11,12 @@ class Category extends Model
 {
     use HasFactory;
 
+    protected $fillable=[
+        'name',
+        'family_id',
+        'id'
+    ];
 
-    protected $guarded=[];
     public function name(){
         return $this->name;
     }
@@ -28,4 +32,5 @@ class Category extends Model
 
         return $this->hasMany(Subcategory::class);
     }
+
 }
