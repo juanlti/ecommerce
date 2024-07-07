@@ -1,11 +1,13 @@
-<div>
+<div x-data="{ open:false,}">
+    {{-- utilizo alpine, para abrir o cerrar el menu, si open:false => menu escondido, caso contrario open:true => menu visible --}}
     <header class="bg-purple-600">
         <x-container class="px-4 py-4">
             {{-- x-container se inicializa con una separacion de 4 pixles (px-4) --}}
             <div class="flex justify-between items-center space-x-8">
                 {{-- items-center, centro todos los hijos  --}}
                 {{-- INICIO la clase flex, permite que sus hijos se agreguen de manera horizontal --}}
-                <button class="text-xl md:text-3xl">
+                <button class="text-xl md:text-3xl" x-on:click="open=true">
+                    {{-- utilizo el button para llamar al metodo x-data y cambiar true/false por click --}}
                     <i class="fas fa-bars text-white">
 
                     </i>
@@ -73,13 +75,16 @@
 
     </header>
 
-    <div class="fixed top-0 left-0 inset-0 bg-black bg-opacity-25 z-10">
+    <div x-show="open"  x-on:click="open = false" style="display: none" class="fixed top-0 left-0 inset-0 bg-black bg-opacity-25 z-10">
+        {{-- fondo negro/gris --}}
         {{-- fixed quito al elemento de su padre, sin restricciones de posicionamiento --}}
         {{-- top-0 arriba y left-0 izquierda => extremo superior izquierdo --}}
         {{-- inset-0, ocupar todo el lugar disponible  --}}
         {{-- z-10, efecto de ver el elemento mas cerca o mas lejos, utilizando un orden de apilamiento --}}
         {{-- z-Mayor => cerca del usuario, z-Menor => mas lejos del usuario --}}
-        <div class="fixed top-0 left-0 z-20">
+        <div x-show="open" x-on:click.stop style="display: none" class="fixed top-0 left-0 z-20">
+              {{-- x-show="open"  es una variable,  cambia por el metodo de x-data. Si x-data es false => el style se mantiene en none, caso contrario si x-data es true => el style en none desaparece, poniendolo visible --}}
+                {{-- menu --}}
 
             <div class="flex">
                 {{-- primer Div --}}
@@ -92,7 +97,7 @@
                             <span class="text-lg"> Hola </span>
 
 
-                            <button>
+                            <button x-on:click="open = false" >
                                 <i class="fas fa-times"></i>
                             </button>
                         </div>
