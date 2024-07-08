@@ -54,6 +54,16 @@
             'active'=>request()->routeIs('admin.products.*')
 
          ],
+             [
+             //covers
+            'icon'=>'fa-solid fa-images',
+            'name'=>'Portadas',
+            'route'=>route('admin.covers.index'),
+            //verificamos si la ruta esta activa (Estamos sobra esa pagina) o no (pagina distinta)
+            'active'=>request()->routeIs('admin.covers.*')
+
+         ],
+
 
 
 

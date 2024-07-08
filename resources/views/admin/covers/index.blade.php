@@ -1,0 +1,21 @@
+<x-admin-layout :breadcrumbs="[
+[ 'name'=>'Dashboard',
+'route'=>route('admin.dashboard')
+
+
+],
+[
+'name'=>'Covers',
+]
+
+]">
+
+    {{-- botton--}}
+<x-slot name="action">
+    <a  href="{{route('admin.covers.create')}}" class="btn btn-blue">
+        Nuevo
+    </a>
+
+</x-slot>
+
+    </x-admin-layout>
