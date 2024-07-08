@@ -42,11 +42,75 @@
                 </div>
                 <div class="flex items-center space-x-4 md:space-x-8">
                     {{-- elem 3 --}}
-                    <button class="text-xl md:text-3xl">
-                        <i class="fas fa-user text-white">
+                    {{--  agrego un componente  de lista desplegable ( list dropdown ) en el icon user--}}
+                    <x-dropdown>
+                        {{-- requiere dos argumentos x-slot x2 --}}
+                        <x-slot name="trigger">
+                            {{-- trigger, disparador del dropwon --}}
+                            {{-- button icono del usuario--}}
+                            @auth
+                                {{-- si el usuario esta logeado, muestro la imagen del usuario --}}
+                                {{-- Auth::user()->profile_photo_url, obtengo la imagen del usuario --}}
+                                {{-- Auth::user()->name, obtengo el nombre del usuario --}}
+                                <button
+                                    class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition">
+                                    <img class="h-8 w-8 rounded-full object-cover"
+                                         src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}"/>
+                                </button>
 
-                        </i>
-                    </button>
+                            @else
+                                {{-- si el usuario no esta logeado, muestro el icono del usuario --}}
+                                <button class="text-xl md:text-3xl">
+                                    <i class="fas fa-user text-white">
+
+                                    </i>
+                                </button>
+                            @endauth
+
+
+                        </x-slot>
+                        <x-slot name="content">
+                            {{-- contendido del dropdown --}}
+                            @guest
+                                {{--  Informacion publica usuario no logeado --}}
+
+                                {{-- div inicio --}}
+                                <div class="px-4 py-2">
+                                    <div class="flex justify-center">
+                                        <a href="{{route('login')}}" class="btn btn-purple"> Iniciar Session </a>
+
+
+                                    </div>
+                                    <p class="text-sm text-center mt-4">
+                                        ¿No tienes cuenta? <a href="{{route('register')}}"
+                                                              class="text-purple-600 font-semibold hover:underline">
+                                            Registrate </a>
+                                    </p>
+
+                                </div>
+                                {{-- div fin --}}
+                            @else
+                                {{--  Informacion privada usuario logeado --}}
+                                <x-dropdown-link href="{{route('profile.show')}}"> Mi perfil</x-dropdown-link>
+
+                                <div class="border-t border-gray-200">
+
+                                    <!-- Formulario para cerrar session Authentication -->
+                                    <form method="POST" action="{{ route('logout') }}" x-data>
+                                        @csrf
+
+                                        <x-dropdown-link href="{{ route('logout') }}"
+                                                         @click.prevent="$root.submit();">
+                                            {{ __('Log Out') }}
+                                        </x-dropdown-link>
+                                    </form>
+
+                                </div>
+                            @endguest
+                        </x-slot>
+
+                    </x-dropdown>
+
 
                     <button class="text-xl md:text-3xl">
                         <i class="fas fa-shopping-cart text-white"></i>
@@ -75,7 +139,8 @@
 
     </header>
 
-    <div x-show="open"  x-on:click="open = false" style="display: none" class="fixed top-0 left-0 inset-0 bg-black bg-opacity-25 z-10">
+    <div x-show="open" x-on:click="open = false" style="display: none"
+         class="fixed top-0 left-0 inset-0 bg-black bg-opacity-25 z-10">
         {{-- fondo negro/gris --}}
         {{-- fixed quito al elemento de su padre, sin restricciones de posicionamiento --}}
         {{-- top-0 arriba y left-0 izquierda => extremo superior izquierdo --}}
@@ -83,8 +148,8 @@
         {{-- z-10, efecto de ver el elemento mas cerca o mas lejos, utilizando un orden de apilamiento --}}
         {{-- z-Mayor => cerca del usuario, z-Menor => mas lejos del usuario --}}
         <div x-show="open" x-on:click.stop style="display: none" class="fixed top-0 left-0 z-20">
-              {{-- x-show="open"  es una variable,  cambia por el metodo de x-data. Si x-data es false => el style se mantiene en none, caso contrario si x-data es true => el style en none desaparece, poniendolo visible --}}
-                {{-- menu --}}
+            {{-- x-show="open"  es una variable,  cambia por el metodo de x-data. Si x-data es false => el style se mantiene en none, caso contrario si x-data es true => el style en none desaparece, poniendolo visible --}}
+            {{-- menu --}}
 
             <div class="flex">
                 {{-- primer Div --}}
@@ -97,7 +162,7 @@
                             <span class="text-lg"> Hola </span>
 
 
-                            <button x-on:click="open = false" >
+                            <button x-on:click="open = false">
                                 <i class="fas fa-times"></i>
                             </button>
                         </div>
