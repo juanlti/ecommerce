@@ -76,7 +76,7 @@
 
 <!-- importo los dependencias  de js -->
 @stack('js')
-
+{{--
 @if (session('swal'))
     <script>
 
@@ -85,7 +85,18 @@
 
     </script>
 @endif
+--}}
+@if (session('swal'))
+    <script>
+        // Preparar la configuración de Swal con los colores personalizados
+        let swalConfig = {!! json_encode(session('swal')) !!};
+        swalConfig.background = '#f9f9f9'; // Cambia el color de fondo
+        swalConfig.confirmButtonColor = '#3085d6'; // Cambia el color del botón de confirmación
 
+        // json_encode => RECIBE CODIGO DE PHP EN JS
+        Swal.fire(swalConfig);
+    </script>
+@endif
 
 <script>
     // session de tipo livewire, este se activa cuando escuche un evento

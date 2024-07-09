@@ -15,7 +15,7 @@
 
 ]">
 
-    <form action="{{route('admin.covers.create')}}" method="POST">
+    <form action="{{route('admin.covers.store')}}" method="POST" enctype="multipart/form-data">
         @csrf
         {{-- Ingreso de imagen de tipo image --}}
         <figure class="relative mb-4">
@@ -38,6 +38,7 @@
             </img>
 
         </figure>
+        <x-validation-errors class="mb-4"/>
 
         <div class="mb-4">
             {{-- Ingreso de dato de tipo text --}}
@@ -94,7 +95,9 @@
         </div>
 
         {{-- creo un boton, para el envio de formulario --}}
-        <div class="flex"> </div>
+        <div class="flex justify-end">
+        <x-button>Crear portada </x-button>
+        </div>
 
 
     </form>

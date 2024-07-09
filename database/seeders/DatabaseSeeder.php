@@ -18,10 +18,13 @@ class DatabaseSeeder extends Seeder
     {
 
         Storage::deleteDirectory('products');
+        Storage::deleteDirectory('covers');
         //elimina la carpeta products
 
         // crear la carpeta products
         Storage::makeDirectory('products');
+        //crear la carpeta covers
+        Storage::makeDirectory('covers');
         // \App\Models\User::factory(10)->create();
         \App\Models\User::factory()->create([
           'name' => 'Juan',
