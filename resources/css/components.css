@@ -1,3 +1,12 @@
-.card{
+.card {
     @apply bg-white rounded-lg shadow p-6
+}
+
+.titulo-producto {
+    /* max-width: 300px;  Limita el ancho del título */
+
+        /*  overflow: hidden; Oculta el texto que desborde el contenedor */
+    /* white-space: nowrap;  Evita que el texto se divida en varias líneas */
+    /* text-overflow: ellipsis;  Añade puntos suspensivos al final del texto desbordado */
+    color: red; /* Establece el color del texto */
 }
