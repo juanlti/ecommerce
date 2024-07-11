@@ -16,6 +16,7 @@ class FamilyController extends Controller
 
     public function show(Family $family)
     {
+        /*
         //buscar las opciones de la familia en multiples tablas
         $options = Option::whereHas('products.subcategory.category', function ($query) use ($family) {
             // realizo una busqueda con filtros en las relaciones (join), comenzado en la tabla products relacionado con .subcategories y relacionado con .categories.
@@ -34,6 +35,8 @@ class FamilyController extends Controller
         return $options;
 
         $family = Family::find($family);
+        */
         return view('families.show', compact('family'));
+
     }
 }

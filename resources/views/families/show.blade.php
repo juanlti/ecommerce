@@ -1,7 +1,9 @@
 {{-- extendemos la plantilla --}}
 <x-app-layout>
 
+<div class="mt-12">
+    @livewire('filtrer',['family'=>$family])
 
-    @livewire('filtrer',compact('family'))
+</div>
 
 </x-app-layout>
