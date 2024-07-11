@@ -10,6 +10,9 @@
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+
+        @stack('css')
+        {{--con @stack('css'), declaro que a futuro, las paginas que se extiendan de app.blade van a tener css  --}}
         <!-- Fonts Awesome -->
         <script src="https://kit.fontawesome.com/520678b794.js" crossorigin="anonymous"></script>
 
@@ -33,10 +36,17 @@
             <main>
                 {{ $slot }}
             </main>
+
+            <div class="mt-16">
+                {{-- le agrego una separacion de mt-16 al footer en la parte superior, para que haya una distancia entre main y footer--}}
+                {{-- incluyo el footer.blade.php --}}
+                @include('layouts.partials.app.footer')
+            </div>
         </div>
 
         @stack('modals')
 
         @livewireScripts
+        @stack('js')
     </body>
 </html>

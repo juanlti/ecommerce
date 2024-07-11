@@ -13,7 +13,7 @@
                     </i>
 
                 </button>
-                {{-- elem 1 --}}
+                {{-- elem 1  logo--}}
                 <h1 class="text-white">
                     <a href="/" class="inline-flex  flex-col items-end">
                         {{-- inline-flex ocupa el ancho disponible por linea, permitiendo una alineacion entre los elementos --}}

@@ -5,7 +5,7 @@ use App\Models\Product;
 use App\Models\Variant;
 use App\Models\Feature;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-
+use App\Http\Controllers\WelcomeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,9 +17,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [WelcomeController::class,'index'])->name('welcome.index');
 
 Route::middleware([
     'auth:sanctum',
