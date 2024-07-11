@@ -179,7 +179,7 @@
                                 {{-- $set('family_id',{{$family}}),  asigno el objeto a la variable family_id --}}
                                 {{--$set('family_id',{{$family}}),  setea los valores de manera automatica $('NombreDeLaPropiedad.valor)--}}
                                 <li wire:mouseover="$set('family_id',{{$family->id}})">
-                                    <a href="{{route('admin.families.index')}}"
+                                    <a href="{{route('famiy.show',$family)}}"
                                        class="flex justify-between items-center px-4 py-4 hover:bg-gray-100 hover:bg-purple-200">
                                         {{$family->name}}
 
@@ -209,7 +209,7 @@
                         <div class="mb-8 flex justify-between items-center">
                             {{-- un border parte inferior de 3 pixles --}}
                             <p class="border-b-[3px] border-lime-400 uppercase text-xl font-semibold pb-1"> {{$this->familyName}}</p>
-                            <a href="" class="btn btn-purple">Ver todo</a>
+                            <a href="{{route('famiy.show',$family_id)}}" class="btn btn-purple">Ver todo</a>
                         </div>
 
                         {{-- altura de la pantalla  menos la parte superior del desplazamiento  [calc(100vh-52px)] --}}

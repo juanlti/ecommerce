@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+
 class Option extends Model
 {
     use HasFactory;
@@ -14,12 +15,13 @@ class Option extends Model
     protected $fillable = ['name', 'type','id'];
 
 
+
     //Relacion (INVERSA) Opciones (m) a Productos (m)
     // MUCHOS A MUCHOS
     public function products(): BelongsToMany
     {
         //using(OptionProduct::class) => lo convierte a json al momento de guardarlo/consultarlo utilizando eloquent
-        return $this->belongsToMany(Product::class)->using(OptionProduct::class)->whithPivot('features')->withTimestamps();
+        return $this->belongsToMany(Product::class)->using(OptionProduct::class)->withPivot('features')->withTimestamps();
 
 
     }

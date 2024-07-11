@@ -6,6 +6,8 @@ use App\Models\Variant;
 use App\Models\Feature;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\FamilyController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -83,4 +85,6 @@ function generarCombinaciones($arrays, $indice = 0, $combinacion = [])
     return $resultado;
 
 }
+Route::get('families/{family}',[FamilyController::class,'show'])->name('famiy.show');
+
 
