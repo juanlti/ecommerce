@@ -19,7 +19,7 @@ class Product extends Model
 
 
 
-    //relacion (inversa)  Subcategory (1) a Category (m)
+        //relacion (inversa)  Subcategory (1) a Product (m)
     public function subcategory():BelongsTo{
         return $this->belongsTo(Subcategory::class);
     }
