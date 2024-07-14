@@ -2,12 +2,13 @@
     {{-- Nothing in the world is as soft and yielding as water. --}}
 
 
-    <x-container class="flex px-4">
-
-        @if($options->count()>0)
+    <x-container class="md:flex px-4">
+            {{--  para que sea responsive necesito que mi pantalla utilize el flex a partir de una pantalla mid md:flex --}}
+        @if(count($options))
             {{-- aside contiene las opciones y features de los productos, en el caso que los productos, no tengan, este espacio, se oculta --}}
 
-            <aside class="w-52 flex-shrink-0 mr-8">
+            <aside class="md:w-52 md:flex-shrink-0 md:mr-8 mb-8 md:mb-0">
+                {{-- a partir de una pantalla mediana o mas grande, tiene  md:flex-shrink-0 md:mr-8 --}}
                 {{-- la clase padre flex, contiene varios hijos, y uno de estos, ocupa mas espeacio que el resto, la clase padre flex, automaticamente achica al hijo  mas chico para dar especio al otro --}}
                 {{-- con la clase flex-shrink-0, declaro que este hijo no puede ser reducido por la clase padre --}}
                 {{-- mr-8 separacion entre y el siguiente componente --}}
@@ -24,7 +25,7 @@
                                 x-on:click="open=!open">
                                 {{--Paso n3 para agregarle dinamismo utilizo  x-on:click="variableCompartida, modificando su valor por cada click --}}
                                 {{-- text-left para posicionar el texto a la izquierda --}}
-                                {{$option->name}}
+                                {{$option['name']}}
 
                                 {{-- para obtener un cambio de icono de manera dinamica, utilizo  paso n4 x-bind:class --}}
                                 <i class="fa-solid fa-angle-down" x-bind:class="{
@@ -34,15 +35,15 @@
                             </button>
                             {{-- Paso n2 relaciono el componente a ocultar/mostrar,  utilizando x-show y la variable compartida de "open"  --}}
                             <ul class="mt-2 space-y-2" x-show="open">
-                                @foreach($option->features as $feature)
+                                @foreach($option['features'] as $feature)
                                     <li>
                                         <label class="inline-flex items-center">
                                             {{--  inline-flex mantiene el mismo reglon, permite utilizar las propiedades de flex --}}
-                                            <x-checkbox class="mr-4">
-
+                                            <x-checkbox class="mr-2" value="{{$feature['id']}}" wire:model.live="selected_features">
+                                                {{-- sincronizar  el valor de x-checkbox con una variable de la clase, selected_features, utilizo la propiedad de wire:model.live="unaVariableDeClase"  --}}
 
                                             </x-checkbox>
-                                            {{$feature->description}}
+                                            {{$feature['description']}}
                                         </label>
                                     </li>
                                 @endforeach
@@ -59,9 +60,9 @@
         @endif
 
 
-        <div class="flex-1">
-            <hr class="mb-4">
-            <div class="flex items-center">
+        <div class="md:flex-1">
+            <div class="mb-4">
+               <div class="flex items-center">
                 <span class="mr-2">
                     Ordenar por:
                     <x-select name="family_id">
@@ -72,10 +73,12 @@
                     </x-select>
                 </span>
             </div>
-            <hr class="my-4">
+
+            <div class="my-4"/>
             {{-- my-4 espacio y con linea --}}
             {{-- ocupa todo el espacio  allProducts--}}
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {{--             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"> --}}
                 {{-- muestro los elementos en grilla.  --}}
                 {{-- PANTALLA CHICA => UNA SOLA COLUMNA: grid-cols-1 --}}
                 {{-- PANTALLA SMALL => DOS COLUMNAS:  sm:grid-cols-2 --}}
@@ -84,7 +87,7 @@
                 {{-- y por cada columna una separacion de gap-6--}}
                 @foreach($allProducts as $product)
                     <article class="bg-white shadow rounded overflow-hidden">
-
+                        {{$product}}
                         <img src="{{$product->image}}" alt="" class="w-full h-48 object-cover object-center">
 
                         <div class="p-4">
@@ -110,6 +113,10 @@
                         </div>
 
                     </article>
+                    @isset($product)
+                    @dump($product->toArray())
+                    @dump($product->options)
+                    @endisset
 
                 @endforeach
 
@@ -125,5 +132,7 @@
 
 
     </x-container>
+
+     {{--  para mostrar el contenido de una variable de php, utilizo la funcion var_dump --}}
 
 </div>
