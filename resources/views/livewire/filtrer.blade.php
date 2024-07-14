@@ -3,7 +3,7 @@
 
 
     <x-container class="md:flex px-4">
-            {{--  para que sea responsive necesito que mi pantalla utilize el flex a partir de una pantalla mid md:flex --}}
+        {{--  para que sea responsive necesito que mi pantalla utilize el flex a partir de una pantalla mid md:flex --}}
         @if(count($options))
             {{-- aside contiene las opciones y features de los productos, en el caso que los productos, no tengan, este espacio, se oculta --}}
 
@@ -39,7 +39,8 @@
                                     <li>
                                         <label class="inline-flex items-center">
                                             {{--  inline-flex mantiene el mismo reglon, permite utilizar las propiedades de flex --}}
-                                            <x-checkbox class="mr-2" value="{{$feature['id']}}" wire:model.live="selected_features">
+                                            <x-checkbox class="mr-2" value="{{$feature['id']}}"
+                                                        wire:model.live="selected_features">
                                                 {{-- sincronizar  el valor de x-checkbox con una variable de la clase, selected_features, utilizo la propiedad de wire:model.live="unaVariableDeClase"  --}}
 
                                             </x-checkbox>
@@ -62,7 +63,7 @@
 
         <div class="md:flex-1">
             <div class="mb-4">
-               <div class="flex items-center">
+                <div class="flex items-center">
                 <span class="mr-2">
                     Ordenar por:
                     <x-select name="family_id">
@@ -72,67 +73,69 @@
                         <option value="3">Precio: Menor a mayor</option>
                     </x-select>
                 </span>
+                </div>
+
+                <div class="my-4"/>
+                {{-- my-4 espacio y con linea --}}
+                {{-- ocupa todo el espacio  allProducts--}}
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    {{--             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"> --}}
+                    {{-- muestro los elementos en grilla.  --}}
+                    {{-- PANTALLA CHICA => UNA SOLA COLUMNA: grid-cols-1 --}}
+                    {{-- PANTALLA SMALL => DOS COLUMNAS:  sm:grid-cols-2 --}}
+                    {{-- PANTALLA MEDIANA => TRES COLUMNAS: md:grid-cols-3  --}}
+                    {{-- PANTALLA GRANDE => 4  COLUMNAS: lg:grid-cols-4 --}}
+                    {{-- y por cada columna una separacion de gap-6--}}
+                    @foreach($allProducts as $product)
+                        <article class="bg-white shadow rounded overflow-hidden">
+
+                            <img src="{{$product->image}}" alt="" class="w-full h-48 object-cover object-center">
+
+                            <div class="p-4">
+                                <h1 class="text-lg font-bold text-gray-700 line-clamp-2 min-h-[56px] mb-2">
+                                    {{-- para que el precio de cada tarjeta se encuentre alineaado con el resto, sin importar el tamanio del nombre, defino una altura minima de 56px
+                                    despuee, aparece el precio --}}
+                                    {{-- line-clamp-2 indica la cantidad maximas de lineas para mostrar un texto--}}
+                                    {{$product->name}}
+                                </h1>
+
+                                <p class="text-gray-600 mb-4">
+                                    ${{$product->price}}
+                                </p>
+
+
+                                <a href="" class="btn btn-purple block w-full text-center">
+                                    {{-- las referencias no ocupan el ancho disponible, para obtener ese resultado=>  block w-full --}}
+
+                                    Ver mas
+                                </a>
+
+
+                            </div>
+
+                        </article>
+                        {{--
+                            @isset($product)
+                            @dump($product->toArray())
+                            @dump($product->options)
+                            @endisset
+                           --}}
+
+                    @endforeach
+
+                </div>
+                <div class="mt-8">
+                    {{-- indice de paginacion --}}
+                    {{$allProducts->links()}}
+
+
+                </div>
+
             </div>
-
-            <div class="my-4"/>
-            {{-- my-4 espacio y con linea --}}
-            {{-- ocupa todo el espacio  allProducts--}}
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {{--             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"> --}}
-                {{-- muestro los elementos en grilla.  --}}
-                {{-- PANTALLA CHICA => UNA SOLA COLUMNA: grid-cols-1 --}}
-                {{-- PANTALLA SMALL => DOS COLUMNAS:  sm:grid-cols-2 --}}
-                {{-- PANTALLA MEDIANA => TRES COLUMNAS: md:grid-cols-3  --}}
-                {{-- PANTALLA GRANDE => 4  COLUMNAS: lg:grid-cols-4 --}}
-                {{-- y por cada columna una separacion de gap-6--}}
-                @foreach($allProducts as $product)
-                    <article class="bg-white shadow rounded overflow-hidden">
-                        {{$product}}
-                        <img src="{{$product->image}}" alt="" class="w-full h-48 object-cover object-center">
-
-                        <div class="p-4">
-                            <h1 class="text-lg font-bold text-gray-700 line-clamp-2 min-h-[56px] mb-2">
-                                {{-- para que el precio de cada tarjeta se encuentre alineaado con el resto, sin importar el tamanio del nombre, defino una altura minima de 56px
-                                despuee, aparece el precio --}}
-                                {{-- line-clamp-2 indica la cantidad maximas de lineas para mostrar un texto--}}
-                                {{$product->name}}
-                            </h1>
-
-                            <p class="text-gray-600 mb-4">
-                                ${{$product->price}}
-                            </p>
-
-
-                            <a href="" class="btn btn-purple block w-full text-center">
-                                {{-- las referencias no ocupan el ancho disponible, para obtener ese resultado=>  block w-full --}}
-
-                                Ver mas
-                            </a>
-
-
-                        </div>
-
-                    </article>
-                    @isset($product)
-                    @dump($product->toArray())
-                    @dump($product->options)
-                    @endisset
-
-                @endforeach
-
-            </div>
-            <div class="mt-8">
-                {{-- indice de paginacion --}}
-                {{$allProducts->links()}}
-
-
-            </div>
-
-        </div>
 
 
     </x-container>
 
-     {{--  para mostrar el contenido de una variable de php, utilizo la funcion var_dump --}}
+    {{--  para mostrar el contenido de una variable de php, utilizo la funcion var_dump --}}
 
 </div>
