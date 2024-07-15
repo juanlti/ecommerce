@@ -225,7 +225,7 @@
                             @foreach($this->categories as $category)
                                 <li>
                                     {{--  estilos para el objeto $category --}}
-                                    <a href="" class="text-purple-600 font-semibold text-lg">
+                                    <a href="{{route('categories.show',$category)}}" class="text-purple-600 font-semibold text-lg">
                                         {{$category->name}}
                                     </a>
 
@@ -233,7 +233,7 @@
                                         @foreach($category->subcategory as $subcategory)
                                             {{--  estilos para el objeto $subcategory --}}
                                             <li>
-                                                <a href=""
+                                                <a href="{{route('subcategories.show',$subcategory)}}"
                                                    class="text-sm text-gray-700 hover:text-purple-600 font-semibold">
                                                     {{$subcategory->name}}
                                                 </a>
