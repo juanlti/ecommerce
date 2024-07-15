@@ -62,17 +62,21 @@
 
 
         <div class="md:flex-1">
+           {{--  {{$orderBy}} --}}
             <div class="mb-4">
                 <div class="flex items-center">
                 <span class="mr-2">
                     Ordenar por:
-                    <x-select name="family_id">
+                        </span>
+                    <x-select wire:model.live=orderBy>
+                        {{-- sincronizo la variable $orderBy del componente con el elemento x-select del usuario, entonces orderBy va a tomar en tiempo real las 3 posibles opciones: 1, 2 , 3 --}}
 
                         <option value="1">Relevancia</option>
                         <option value="2">Precio: Mayor a menor</option>
                         <option value="3">Precio: Menor a mayor</option>
                     </x-select>
-                </span>
+
+
                 </div>
 
                 <div class="my-4"/>

@@ -33,7 +33,9 @@
                 {{-- elem 1 --}}
                 <div class="flex-1 hidden md:block">
                     {{-- hidden md:block, se oculta cuando la pantalla sea igual o menor a mediana md --}}
-                    <x-input class="w-full" placeholder="Buscar por producto, tienda o marca">
+                   {{-- x-input oninput=search(this.value) es un mensaje al metodo N2--}}
+                    <x-input oninput="search(this.value)" class="w-full"
+                             placeholder="Buscar por producto, tienda o marca">
 
 
                     </x-input>
@@ -125,7 +127,7 @@
             {{-- FIN de class=flex --}}
             <div class="mt-4 md:hidden">
 
-                <x-input class="w-full" placeholder="Buscar por producto, tienda o marca">
+                <x-input oninput="search(this.value)" class="w-full" placeholder="Buscar por producto, tienda o marca">
 
 
                 </x-input>
@@ -251,4 +253,17 @@
 
         </div>
     </div>
+
+    @push('js')
+
+        <script>
+            // N2 comunicacion entre la vista navigation.blade.php y el componente de Filtrer.php
+            function search(value) {
+                // alert(value);
+                Livewire.dispatch('search', {
+                    search: value
+                })
+            }
+        </script>
+    @endpush
 </div>

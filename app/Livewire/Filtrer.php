@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Family;
 use App\Models\Option;
 use App\Models\Product;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -17,6 +18,8 @@ class Filtrer extends Component
     public $family_id;
     public $options;
     public $selected_features = [];
+    public $orderBy = 1;
+    public $searchTerm;
 
 
     public function mount()
@@ -38,7 +41,6 @@ class Filtrer extends Component
 
 
     }
-
 
     /*
     public function render(): \Illuminate\View\View
@@ -74,14 +76,41 @@ class Filtrer extends Component
         // Realizar la consulta principal con condiciones optimizadas
         $allProducts = Product::whereHas('subcategory.category', function ($query) {
             $query->where('family_id', $this->family_id);
-        })->when(!empty($selectedFeaturesCleaned), function ($query) use ($selectedFeaturesCleaned) {
-            // Ejecutar esta parte de la consulta solo si hay características seleccionadas después de la limpieza
-            $query->whereHas('variants.features', function ($query) use ($selectedFeaturesCleaned) {
-                $query->whereIn('features.id', $selectedFeaturesCleaned);
-            });
-        })->paginate(6);
+        })
+            ->when($this->orderBy == 1, function ($query) {
+                $query->orderBy('created_at', 'desc');
+            })
+            ->
+            when($this->orderBy == 2, function ($query) {
+                $query->orderBy('price', 'desc');
+            })
+            ->
+            when($this->orderBy == 3, function ($query) {
+                $query->orderBy('price', 'asc');
+            })
+            ->
+            when(!empty($selectedFeaturesCleaned), function ($query) use ($selectedFeaturesCleaned) {
+                // Ejecutar esta parte de la consulta solo si hay características seleccionadas después de la limpieza
+                $query->whereHas('variants.features', function ($query) use ($selectedFeaturesCleaned) {
+                    $query->whereIn('features.id', $selectedFeaturesCleaned);
+                });
+            })->when($this->searchTerm, function ($query) {
+                $query->where('name', 'like', '%' . $this->searchTerm . '%');
+            })
+            ->paginate(6);
 
         return view('livewire.filtrer', compact('allProducts'));
     }
+
+
+    #[On('search')]
+    public function search($search)
+    {
+
+        $this->searchTerm = $search;
+        // Aquí puedes realizar la búsqueda basada en $this->searchTerm
+
+    }
+
 
 }
