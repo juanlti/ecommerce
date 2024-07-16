@@ -1,4 +1,5 @@
 @props(['breadcrumbs'=>[]])
+    {{-- PLANTILLA DE ADMIN (REUTILIZABLE  EN LOS DOMINIOS DE ADMIN'S --}}
     <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -87,7 +88,9 @@
 @endif
 --}}
 @if (session('swal'))
+
     <script>
+        // SESSION O USO DE SWAL
         // Preparar la configuración de Swal con los colores personalizados
         let swalConfig = {!! json_encode(session('swal')) !!};
         swalConfig.background = '#f9f9f9'; // Cambia el color de fondo
@@ -99,7 +102,7 @@
 @endif
 
 <script>
-    // session de tipo livewire, este se activa cuando escuche un evento
+    // session de tipo livewire, este se activa cuando escuche un evento de tipo livewire
     //data es un parametro
     Livewire.on('swal', data => {
         Swal.fire(data[0]);
