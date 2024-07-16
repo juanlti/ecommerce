@@ -1,7 +1,8 @@
 
 .btn {
-    @apply font-bold py-2 px-4 rounded;
+    @apply font-bold py-2 px-4 rounded disabled:bg-opacity-50 hover:disabled:bg-opacity-50;
 }
+
 .btn-blue {
     @apply bg-blue-500 text-white hover:bg-blue-700;
 }
@@ -9,9 +10,11 @@
 .btn-red {
     @apply bg-red-500 text-white hover:bg-red-700;
 }
+
 .btn-green {
     @apply bg-green-500 text-white hover:bg-green-700;
 }
+
 .btn-gray {
     @apply bg-gray-500 text-white hover:bg-gray-700;
 }
@@ -19,3 +22,4 @@
 .btn-purple {
     @apply bg-purple-500 text-white hover:bg-purple-700;
 }
+

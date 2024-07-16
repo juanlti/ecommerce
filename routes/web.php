@@ -11,7 +11,7 @@ use App\Http\Controllers\FamilyController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\ProductController;
-
+use Gloudemans\Shoppingcart\Facades\Cart;
 
 /*
 |--------------------------------------------------------------------------
@@ -94,3 +94,9 @@ Route::get('families/{family}',[FamilyController::class,'show'])->name('famiy.sh
 Route::get('categories/{category}',[CategoryController::class,'show'])->name('categories.show');
 Route::get('subcategories/{subcategory}',[SubcategoryController::class,'show'])->name('subcategories.show');
 Route::get('products/{product}',[ProductController::class,'show'])->name('products.show');
+Route::get('pruebaCarritoShoppingCart',function(){
+    // Duggear contenido
+    //declaro la instnacia, en este caso es la instancia shopping y solicito que retorne su contenido
+    Cart::instance('shopping');
+    return Cart::content();
+});
