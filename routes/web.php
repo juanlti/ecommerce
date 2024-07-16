@@ -1,5 +1,6 @@
 <?php
 
+
 use Illuminate\Support\Facades\Route;
 use App\Models\Product;
 use App\Models\Variant;
@@ -9,6 +10,7 @@ use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\FamilyController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SubcategoryController;
+use App\Http\Controllers\ProductController;
 
 
 /*
@@ -91,3 +93,4 @@ function generarCombinaciones($arrays, $indice = 0, $combinacion = [])
 Route::get('families/{family}',[FamilyController::class,'show'])->name('famiy.show');
 Route::get('categories/{category}',[CategoryController::class,'show'])->name('categories.show');
 Route::get('subcategories/{subcategory}',[SubcategoryController::class,'show'])->name('subcategories.show');
+Route::get('products/{product}',[ProductController::class,'show'])->name('products.show');

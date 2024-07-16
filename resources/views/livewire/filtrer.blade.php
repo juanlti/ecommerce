@@ -62,7 +62,7 @@
 
 
         <div class="md:flex-1">
-           {{--  {{$orderBy}} --}}
+            {{--  {{$orderBy}} --}}
             <div class="mb-4">
                 <div class="flex items-center">
                 <span class="mr-2">
@@ -93,6 +93,7 @@
                     @foreach($allProducts as $product)
                         <article class="bg-white shadow rounded overflow-hidden">
 
+
                             <img src="{{$product->image}}" alt="" class="w-full h-48 object-cover object-center">
 
                             <div class="p-4">
@@ -108,7 +109,8 @@
                                 </p>
 
 
-                                <a href="" class="btn btn-purple block w-full text-center">
+                                <a href="{{route('products.show',['product'=>$product])}}"
+                                   class="btn btn-purple block w-full text-center">
                                     {{-- las referencias no ocupan el ancho disponible, para obtener ese resultado=>  block w-full --}}
 
                                     Ver mas

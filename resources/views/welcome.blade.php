@@ -60,7 +60,7 @@
                             </p>
 
 
-                        <a href="" class="btn btn-blue block w-full text-center">
+                        <a href="{{route('products.show',['product'=>$product])}}" class="btn btn-blue block w-full text-center">
                             {{-- las referencias no ocupan el ancho disponible, para obtener ese resultado=>  block w-full --}}
 
                             Ver mas

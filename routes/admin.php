@@ -7,6 +7,8 @@ use App\Http\Controllers\admin\OptionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\admin\CoverController;
+
+
 //RUTAS DEL ADMIN
 
 
@@ -38,3 +40,4 @@ Route::put('products/{products}/variants/{variant}',[ProductController::class,'v
 // ejemplo del problema: http://127.0.0.1:8000/admin/products/100/variants/55 -> utilizo la siguiente funcion
 //->scopeBindings(); al final de la ruta, garantizando de que exista una relacion previa entre unProducto y su variante.
 Route::resource('covers',CoverController::class);
+
