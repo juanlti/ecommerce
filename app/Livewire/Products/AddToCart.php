@@ -33,6 +33,20 @@ class AddToCart extends Component
 
         ]);
 
+        // el metodo store(unParametro); guarda el carrito (instancia) en la base de datos en la tabla shopping_cart
+
+        if(auth()->check()){
+            // el metodo check() verifica si  la instancia de ese usuario esta autenticado
+            //unParametro es el idUsuario autehnticad
+            Cart::store(auth()->id());
+
+        }
+
+        //evento de producto agregado al carrito
+        //hago la conexion entre el back y el front, utilizando el nombre del metodo y el parametro que se va a enviar
+        $this->dispatch('cartUpdated',Cart::count());
+
+
         //emito un evento al terminar con la carga de un producto al carrito
         //nombre del swal, y  [sus opciones]
         $this->dispatch('swal', [

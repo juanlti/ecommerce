@@ -106,6 +106,17 @@ class AddToCartVariants extends Component
             ],
 
         ]);
+        // el metodo store(unParametro); guarda el carrito (instancia) en la base de datos en la tabla shopping_cart
+
+        if(auth()->check()){
+            // el metodo check() verifica si  la instancia de ese usuario esta autenticado
+            //unParametro es el idUsuario autehnticad
+            Cart::store(auth()->id());
+
+        }
+
+        //evento de producto agregado al carrito
+        $this->dispatch('cartUpdated',Cart::count());
 
         //emito un evento al terminar con la carga de un producto al carrito
         //nombre del swal, y  [sus opciones]

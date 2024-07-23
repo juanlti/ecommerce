@@ -114,10 +114,14 @@
                     </x-dropdown>
 
 
-                    <button class="text-xl md:text-3xl">
-                        <i class="fas fa-shopping-cart text-white"></i>
+                    <a href="#" class="relative">
+                        <i class="fas fa-shopping-cart text-white text-xl md:text-3xl"></i>
 
-                    </button>
+                        <span id="cart-count" class="absolute -top-2 -end-4 inline-flex w-6 h-6 items-center justify-center bg-red-500 rounded-full text-xs font-bold text-white borded-2 border-white">
+                            {{Cart::instance('shopping')->count()}}
+                        </span>
+
+                    </a>
 
                     {{-- FIN bottones --}}
                 </div>
@@ -257,6 +261,17 @@
     @push('js')
 
         <script>
+            // comunicacion el backend y el frontend
+        Livewire.on('cartUpdated', (count) => {
+                //esucha el evento cart-count y recibe por parametro el count, cuando escuche ese evento.
+                 // seleciona el id del span, y con el innerText reemplazo el valor por el count
+                document.getElementById('cart-count').innerText = count;
+
+
+        });
+
+
+
             // N2 comunicacion entre la vista navigation.blade.php y el componente de Filtrer.php
             function search(value) {
                 // alert(value);
