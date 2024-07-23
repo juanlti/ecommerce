@@ -11,6 +11,7 @@ use App\Http\Controllers\FamilyController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CartController;
 use Gloudemans\Shoppingcart\Facades\Cart;
 
 /*
@@ -100,3 +101,4 @@ Route::get('pruebaCarritoShoppingCart',function(){
     Cart::instance('shopping');
     return Cart::content();
 });
+Route::get('cart',[CartController::class,'index'])->name('cart.index');

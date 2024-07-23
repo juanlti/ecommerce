@@ -114,7 +114,7 @@
                     </x-dropdown>
 
 
-                    <a href="#" class="relative">
+                    <a href="{{route('cart.index')}}" class="relative">
                         <i class="fas fa-shopping-cart text-white text-xl md:text-3xl"></i>
 
                         <span id="cart-count" class="absolute -top-2 -end-4 inline-flex w-6 h-6 items-center justify-center bg-red-500 rounded-full text-xs font-bold text-white borded-2 border-white">
