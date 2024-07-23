@@ -67,8 +67,15 @@
 
 
     </x-container>
-    {{--  informacion de producto selecionado por el boton "ver mas"--}}
-    @livewire('products.add-to-cart',['product'=>$product])
 
+    @if($product->variants->count())
+        {{-- si el producto tiene variantes, muestro la vista de variantes --}}
+
+        @livewire('products.add-to-cart-variants',['product'=>$product])
+
+    @else
+        {{--  informacion de producto selecionado por el boton "ver mas"--}}
+        @livewire('products.add-to-cart',['product'=>$product])
+    @endif
 
 </x-app-layout>

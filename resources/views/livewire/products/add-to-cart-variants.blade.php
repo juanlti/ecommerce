@@ -11,9 +11,11 @@
 
                     <figure>
                         {{-- muestro la imagen utilizando el accesor --}}
-                        <img src="{{$product->image}}" class="aspect-[1/1] w-full object-cover object-center" alt="">
-
+                        <img src="{{ optional($this->variant)->image ? $this->variant->image : asset('img/no-image.png') }}"
+                             class="aspect-[1/1] w-full object-cover object-center" alt="">
+                            {{-- con el  optional() evito  errores de nulos y de variables indefinidas, muestra un assets --}}
                     </figure>
+
                 </div>
                 <div class="col-span-1">
                     {{-- columna n2 (lado derecho: nombre producto,calificacion por estrellas, precio, cantidad y etc  --}}
@@ -86,6 +88,60 @@
                             +
 
                         </button>
+                    </div>
+
+                    <div class="flex flex-wrap mb-4">
+                        {{-- flex agrega elementos horizontales--}}
+                        {{-- flex-wrap  permite que los elementos hijos se ajusten al ancho del padre, y si no caben en una sola fila, se ajustan a la siguiente fila --}}
+
+                        @foreach($product->options as $option)
+                            {{-- obtengo las opciones de de ese producto --}}
+                            <div class="mr-4 mb-4">
+
+                                <p class="font-semibold text-lg mb-2">{{$option->name}}</p>
+
+                                <ul class="flex items-center space-x-4">
+                                    @foreach($option->pivot->features as $feature)
+                                        {{-- accedo a  la tabla pivote (option_product) a la columna $feature--}}
+                                        <li>
+                                            @switch($option->type)
+                                                {{-- verifico todos los tipos de opciones --}}
+                                                @case(1)
+                                                    <button
+                                                        class="w-20 h-8 font-semibold uppercase text-sm rounded-lg {{$selectedFeatures[$option->id]==$feature['id'] ? 'bg-purple-600 text-white' :' border border-gray-200 text-gray-700'}}"
+                                                        wire:click="$set('selectedFeatures.{{$option->id}}',{{$feature['id']}})">
+                                                        {{-- wire.click y metodo magico $set('indicoLaClaveAmodifcar','nuevoValor') modifico la clave de un arreglo de manera dinamica, obteniendo el id de esa clave, y como segundo parametro el valor, ejemplo: $set('selectedFeatures.{{$option->id}}',{{$feature['id']}}) --}}
+                                                        {{$feature['value']}}
+                                                    </button>
+
+
+                                                    @break
+
+                                                @case(2)
+                                                    <div
+                                                        class="p-0.5 border-2 rounded-lg flex items-center -mt-1.ax5 {{$selectedFeatures[$option->id]==$feature['id']? 'border-purple-600 ':'border-transparent' }}">
+                                                        {{-- margin negativo --}}
+                                                        <button class="w-20 h-8 roundwdadq-lg border border-gray-200"
+                                                                style="background-color:{{$feature['value']}}"
+                                                                wire:click="$set('selectedFeatures.{{$option->id}}',{{$feature['id']}})"></button>
+
+                                                    </div>
+
+                                                    @break
+
+                                            @endswitch
+
+
+                                        </li>
+
+                                    @endforeach
+                                </ul>
+                            </div>
+
+                        @endforeach
+                        {{--  {{var_dump($selectedFeatures)}} --}}
+                        {{--    @dump($selectedFeatures) --}}
+
 
                     </div>
 

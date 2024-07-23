@@ -29,7 +29,7 @@
 
         <div class="relative mb-6">
             <figure>
-                <img class="aspect-[16/9] w-full object-cover object-center" src="{{$variant->image}}" alt=""
+                <img class="aspect-[0.5/0.75] w-full object-cover object-center" src="{{$variant->image}}" alt=""
                      id="imgPreview">
                 {{--  aspect-[16/9] obtengo un ancho de 16 pixles por 9 de alto--}}
                 {{-- object-cover  quito las imperfecciones de la imagen --}}

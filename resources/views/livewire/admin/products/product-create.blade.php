@@ -20,7 +20,7 @@
                  src="{{ $image ? $image->temporaryUrl() :asset('img/no-image.png')}}"
                  alt="">
             </img>
-            {{--  $image ? si es distintono de nulo ejecuta :
+            {{--  $image ? si es distinton de nulo ejecuta :
               $image->temporaryUrl() obtengo la url provista por el sistema (es una url de almacenamiento)
               si es nulo ejecuta :  :asset('img/no-image.png') imagen por defecto
                 --}}
