@@ -8,7 +8,7 @@ use Livewire\Form;
 class CreateAddressForm extends Form
 {
     // defino las propiedades para crea una nueva dirrecion
-    public $type='2';
+    public $type='';
     public $description='';
     public $district='';
     public $reference='';

@@ -6,7 +6,7 @@ namespace App\Enums;
 
 enum TypeOfDocuments: int
 {
-    // enum es una clase que contiene constantes
+    // enum es una clase que contiene constantes, para acceder a sus valores, utilizo el name
     case DNI = 1;
     case CE = 2;
     case RUC = 3;
