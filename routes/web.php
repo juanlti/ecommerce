@@ -12,7 +12,10 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\ShippingController;
 use Gloudemans\Shoppingcart\Facades\Cart;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -102,3 +105,5 @@ Route::get('pruebaCarritoShoppingCart',function(){
     return Cart::content();
 });
 Route::get('cart',[CartController::class,'index'])->name('cart.index');
+Route::get('shipping',[ShippingController::class,'index'])->name('shipping.index');
+

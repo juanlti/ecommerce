@@ -27,6 +27,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'phone',
+        'last_name',
+        'document_type',
+        'document_number',
+
     ];
 
     /**
@@ -58,4 +63,11 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    //CREO LA RELACION DE USER (1) --> ADDRESSES (M)
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
+    }
+
 }

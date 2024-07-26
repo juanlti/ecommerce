@@ -16,7 +16,8 @@
                     Carrito de compras {{Cart::count()}} Productos
                 </h1>
                 <button
-                    class="font-semibold text-gray-600 hover:text-blue-500 underline hover:no-underline" wire:click="destroy()">Limpiar
+                    class="font-semibold text-gray-600 hover:text-blue-500 underline hover:no-underline"
+                    wire:click="destroy()">Limpiar
                     carro
                 </button>
                 {{-- para quitar el subrrayado y cambiar de color, cuando el mouse este sobre el botton, utilizo:  hover:no-underline  y hover:text-blue-600 --}}
@@ -45,7 +46,8 @@
                                 </p>
 
                                 <button
-                                    class="bg-red-100 hover:bg-red-200 text-red-800 text-xs font-semibold rounded px-2.5 py-0.5" wire:click="remove('{{$item->rowId}}')"
+                                    class="bg-red-100 hover:bg-red-200 text-red-800 text-xs font-semibold rounded px-2.5 py-0.5"
+                                    wire:click="remove('{{$item->rowId}}')"
                                     wire:loading.attr="disabled">
                                     {{-- con el metodo   wire:loading.attr="disabled" detecta si alguna variable del componente esta en uso, el botton se bloquea hasta que la variabla alla terminado--}}
                                     {{-- --bg-red-100 => color de fondo --}}
@@ -117,7 +119,7 @@
                     </p>
 
                 </div>
-                <a href="#" class="btn btn-purple block w-full text-center">
+                <a href="{{route('shipping.index')}}" class="btn btn-purple block w-full text-center">
                     {{-- ocupar todo el ancho disponible => blcok w-full --}}
                     Continuar Compra</a>
 

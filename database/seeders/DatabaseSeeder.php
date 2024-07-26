@@ -27,10 +27,14 @@ class DatabaseSeeder extends Seeder
         Storage::makeDirectory('covers');
         // \App\Models\User::factory(10)->create();
         \App\Models\User::factory()->create([
-          'name' => 'Juan',
-           'email' => 'j@hotmail.com',
+            'name' => 'Juan',
+            'email' => 'j@hotmail.com',
             'password' => bcrypt('12345678'),
-         ]);
+            'phone' => '299',
+            'last_name' => 'Barrera Liberati',
+            'document_type' => '1',
+            'document_number' => '12345678',
+        ]);
 
         $this->call([
             FamilySeeder::class,
