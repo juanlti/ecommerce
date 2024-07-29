@@ -14,11 +14,17 @@ class Address extends Model
         'address',
         'city',
         'state',
-        'zip',
+        'type',
         'country',
         'phone',
         'default',
-    ];
+        'description',
+        'district',
+        'reference',
+        'receiver',
+        'receiver_info',];
+
+
     // para guardar/obtener el valor del registro receiver_info de tipo json, es necesario, castearlo, evitando las conversiones de json
     protected $casts = [
         // el valor de receiver_info se almacena en json pero se obtiene como array

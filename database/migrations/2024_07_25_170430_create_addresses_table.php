@@ -15,7 +15,7 @@ return new class extends Migration
             //creo una clave foranea que se llama user_id que se relaciona con la tabla users y se elimina en cascada
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             // el registro type, determina si es un domicilio o una officina
-            $table->integer('type');
+            $table->string('type');
             // el registro description, contiene la direccion como tal, ejemplo: Avenida siempre viva 742
             $table->string('description');
             // el registro destrict, hace referencia a una proviencia.

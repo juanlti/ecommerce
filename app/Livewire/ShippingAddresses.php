@@ -14,6 +14,8 @@ class ShippingAddresses extends Component
     public $newAddress = false;
     //createAddress es una instancia de la clase CreateAddress que se encarga de crear una nueva dirrecion
     public CreateAddressForm $createAddress;
+    public $updatingCart = false;
+
 
     public function mount()
     {
@@ -43,12 +45,24 @@ class ShippingAddresses extends Component
 
     }
     public function store(){
+        if ($this->updatingCart) {
+            //esta ocupado, no puede actualizar, se va del metodo increase() por el return
+            return;
+
+        }
+
+        //condicion de carra, toma el proceso de actualizacion del carrito
+        $this->updatingCart = true;
+        //dd($this->createAddress->type);
         // se crear una nueva instancia de dirreccion, se almacena en la bd+ limpia y se recupera la informacion del usuario autenticado
         $this->createAddress->save();
         // refrezco los datos de las dirreciones del usuario autenticado en la vista
         $this->addresses = Address::where('user_id', auth()->id())->get();
         // despues de crear una direccion, cierro el formulario con $this->newAddress = false;
         $this->newAddress = false;
+        //libero
+        //condicion de carra, toma el proceso de actualizacion del carrito
+        $this->updatingCart = false;
 
 
 
