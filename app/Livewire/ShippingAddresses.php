@@ -115,6 +115,30 @@ class ShippingAddresses extends Component
 
 
     }
+    public function delete(Address $id){
+        //elimino la instancia  Address
+        $id->delete();
+        //ACTUALIZO LAS DIRECCIONES DEL USUARIO
+        $this->addresses = Address::where('user_id', auth()->id())->get();
+        if($this->addresses->where('default',true)->count()==0 && $this->addresses->count()>0){
+            //obtengo todos los registos donde el default es igual a true y comparo si a cantidad total es == 0
+          // no hay direcciones por defecto, asigno una por defecto
+            //tomo la primera dirrecion de la coleccion de direcciones y la actualizo con default=true
+            $this->addresses->first()->update(['default'=>true]);
+
+        }
+
+        //session flash (mensajes)
+        session()->flash('swal', [
+            'icon' => 'succes',
+            'title' => 'Bien hecho',
+            'text' => 'Producto eliminado correctamente',
+
+        ]);
+
+
+
+    }
 
     public function render()
     {

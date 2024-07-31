@@ -232,7 +232,8 @@
                         <ul class="grid grid-cols-3 gap-4">
                             @foreach($addresses as $address)
 
-                                <li class="rounded-lg shadow {{$address->default?'bg-purple-200':'bg-white'}}">
+                                <li class="rounded-lg shadow {{$address->default?'bg-purple-200':'bg-white'}}" wire:key="addresses-{{$address->id}}">
+                                    {{-- agrego una llave de livewire, utilizando el nombre de la coleccion-{{idDelObjeto}}  con esto logramos un corrrecto renderizado--}}
                                     <div class="p-4 flex items-center">
                                         {{-- con flex padre, los hijos (total 3) se posicionan de manera horizontal uno al lado de de otro --}}
                                         {{-- h1 --}}
@@ -283,7 +284,7 @@
                                             <button wire:click="edit({{$address->id}})">
                                                 <i class="fa-solid fa-pencil"></i>
                                             </button>
-                                            <button>
+                                            <button wire:click="delete({{$address->id}})">
                                                 <i class="fa-solid fa-trash-can"></i>
                                             </button>
 

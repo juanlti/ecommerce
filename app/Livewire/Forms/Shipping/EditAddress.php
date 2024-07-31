@@ -13,7 +13,7 @@ class EditAddress extends Form
 {
     public $id;
     // defino las propiedades para crea una nueva dirrecion
-    public $type = '4';
+    public $type = '';
     public $description = '';
     public $district = '';
     public $reference = '';
