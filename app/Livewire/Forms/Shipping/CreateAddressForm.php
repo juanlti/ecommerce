@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Livewire\Forms;
+namespace App\Livewire\Forms\Shipping;
 
-use Illuminate\Validation\Rules\Enum;
 use App\Enums\TypeOfDocuments;
 use App\Models\Address;
-use Livewire\Attributes\Validate;
+use Illuminate\Validation\Rules\Enum;
 use Livewire\Form;
 
 class CreateAddressForm extends Form
@@ -35,7 +34,7 @@ class CreateAddressForm extends Form
             'district' => 'required|string|min:5|max:255',
             'reference' => 'required|string|min:5|max:255',
             //receiver puede ser 1 (sere yo )  o 2 (otra persona)
-            'receiver' => 'required|in:1,2',
+            'receiver' => 'required|in:1,0',
             'receiver_info' => 'required|array',
             'receiver_info.name' => 'required|string',
             'receiver_info.last_name' => 'required|string',
